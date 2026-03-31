@@ -1,0 +1,35 @@
+########################################
+# Program: patmatmotifs
+# Rundate: Mon 30 Mar 2026 14:30:11
+# Commandline: patmatmotifs
+#    -sequence /localdisk/home/s2238539/public_html/Website/results/4/motifs/KAF1432837.1.fasta
+#    -outfile /localdisk/home/s2238539/public_html/Website/results/4/motif_outputs/KAF1432837.1_motifs.txt
+#    -full
+# Report_format: dbmotif
+# Report_file: /localdisk/home/s2238539/public_html/Website/results/4/motif_outputs/KAF1432837.1_motifs.txt
+########################################
+
+#=======================================
+#
+# Sequence: KAF1432837.1     from: 1   to: 358
+# HitCount: 1
+#
+# Full: Yes
+# Prune: Yes
+# Data_file: /usr/share/EMBOSS/data/PROSITE/prosite.lines
+#
+#=======================================
+
+Length = 4
+Start = position 139 of sequence
+End = position 142 of sequence
+
+Motif = AMIDATION
+
+LLSTAMGKKQSRTL
+     |  |
+   139  142
+
+
+#---------------------------------------
+#---------------------------------------

@@ -1,0 +1,35 @@
+########################################
+# Program: patmatmotifs
+# Rundate: Sun 29 Mar 2026 18:37:21
+# Commandline: patmatmotifs
+#    -sequence /localdisk/home/s2238539/public_html/Website/results/2/motif_results/AAD15019.1.fasta
+#    -outfile /localdisk/home/s2238539/public_html/Website/results/2/motif_results/AAD15019.1.patmatmotifs
+#    -full
+# Report_format: dbmotif
+# Report_file: /localdisk/home/s2238539/public_html/Website/results/2/motif_results/AAD15019.1.patmatmotifs
+########################################
+
+#=======================================
+#
+# Sequence: AAD15019.1     from: 1   to: 226
+# HitCount: 1
+#
+# Full: Yes
+# Prune: Yes
+# Data_file: /usr/share/EMBOSS/data/PROSITE/prosite.lines
+#
+#=======================================
+
+Length = 10
+Start = position 155 of sequence
+End = position 164 of sequence
+
+Motif = ATPASE_A
+
+FIQPMALAVRLTANITAGHL
+     |        |
+   155        164
+
+
+#---------------------------------------
+#---------------------------------------

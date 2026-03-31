@@ -1,0 +1,44 @@
+########################################
+# Program: patmatmotifs
+# Rundate: Mon 30 Mar 2026 13:35:38
+# Commandline: patmatmotifs
+#    -sequence /localdisk/home/s2238539/public_html/Website/results/3/motifs/AAA35578.1.fasta
+#    -outfile /localdisk/home/s2238539/public_html/Website/results/3/motif_outputs/AAA35578.1_motifs.txt
+# Report_format: dbmotif
+# Report_file: /localdisk/home/s2238539/public_html/Website/results/3/motif_outputs/AAA35578.1_motifs.txt
+########################################
+
+#=======================================
+#
+# Sequence: AAA35578.1     from: 1   to: 615
+# HitCount: 2
+#
+# Full: No
+# Prune: Yes
+# Data_file: /usr/share/EMBOSS/data/PROSITE/prosite.lines
+#
+#=======================================
+
+Length = 8
+Start = position 248 of sequence
+End = position 255 of sequence
+
+Motif = ATP_GTP_A
+
+TTAIPGAFGCGKTVISQS
+     |      |
+   248      255
+
+Length = 10
+Start = position 444 of sequence
+End = position 453 of sequence
+
+Motif = ATPASE_ALPHA_BETA
+
+QRKHFPSINWLISYSKYMRA
+     |        |
+   444        453
+
+
+#---------------------------------------
+#---------------------------------------

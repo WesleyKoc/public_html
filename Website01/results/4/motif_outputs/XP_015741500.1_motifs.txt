@@ -1,0 +1,35 @@
+########################################
+# Program: patmatmotifs
+# Rundate: Mon 30 Mar 2026 14:30:10
+# Commandline: patmatmotifs
+#    -sequence /localdisk/home/s2238539/public_html/Website/results/4/motifs/XP_015741500.1.fasta
+#    -outfile /localdisk/home/s2238539/public_html/Website/results/4/motif_outputs/XP_015741500.1_motifs.txt
+#    -full
+# Report_format: dbmotif
+# Report_file: /localdisk/home/s2238539/public_html/Website/results/4/motif_outputs/XP_015741500.1_motifs.txt
+########################################
+
+#=======================================
+#
+# Sequence: XP_015741500.1     from: 1   to: 432
+# HitCount: 1
+#
+# Full: Yes
+# Prune: Yes
+# Data_file: /usr/share/EMBOSS/data/PROSITE/prosite.lines
+#
+#=======================================
+
+Length = 4
+Start = position 67 of sequence
+End = position 70 of sequence
+
+Motif = AMIDATION
+
+TGQPEPGRRLWRRM
+     |  |
+    67  70
+
+
+#---------------------------------------
+#---------------------------------------

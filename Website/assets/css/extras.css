@@ -1,0 +1,742 @@
+/**
+ * This file grew organically as I added more features. Some classes got
+ * weird names because I kept refactoring and my typing got sloppy, and because
+ * I'm constantly on too many red bulls.
+ * I have kept them as-is because changing them now would break existing markup.
+ */
+
+/**
+ * Job context bar
+ * Shows metadata about the current analysis job -> job ID, species, date, that sort of thing.
+ * I wanted this to sit at the top of the page as a subtle reminder of what you are looking at.
+ * 
+ * Originally I tried a darker background but it felt too heavy. The light primary colour
+ * ended up being the sweet spot -> visible but not shouting at the user.
+ */
+.jo_-contexxt {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--mid_space);
+    padding: var(--smol_space) var(--big_space);
+    background: var(--light_primary_colour);
+    border: 1px solid var(--border_colour);
+    border-radius: var(--corner_rounding);
+    font-size: 0.85rem;
+    margin-bottom: var(--bigger_space);
+}
+
+.job_contexxt_bar_item {
+    display: flex;
+    align-items: center;
+    gap: var(--tiny_space);
+    color: var(--grey_text_colour);
+}
+
+.job_contexxt_bar_item strong {
+    color: var(--base_text_colour);
+}
+
+.job_contexxt_bar_separater {
+    color: var(--border_colour);
+}
+
+/**
+ * Step breadcrumb navigation
+ * Visual indicator showing where the user is in the multi-step pipeline.
+ * 
+ * Basically copy-pasted from previous steps in the pipeline
+ */
+.step_breaddcrum {
+    display: flex;
+    align-items: center;
+    gap: var(--smol_space);
+    margin-bottom: var(--bigger_space);
+    font-size: 0.82rem;
+    flex-wrap: wrap;
+}
+
+.step_breaddcrum_item {
+    display: flex;
+    align-items: center;
+    gap: var(--tiny_space);
+    color: var(--grey_text_colour);
+}
+
+.step_breaddcrum_item.done {
+    color: var(--success_colour);
+}
+
+.step_breaddcrum_item.active {
+    color: var(--primary_colour);
+    font-weight: 600;
+}
+
+.step_breaddcrum_sep {
+    color: var(--border_colour);
+}
+
+/**
+ * Tab navigation -> vertical sidebar layout
+ * I wanted a left-hand navigation column that stays sticky while the user scrolls
+ * through the content. This mimics how many bioinformatics tools organise their results.
+ * 
+ * The sticky positioning was a pain to get right. I had to account for the site header
+ * height plus some breathing room. The top value uses calc with the header height
+ * plus my spacing variable -> this way if the header ever changes, it still works.
+ * Code adapted from: https://css-tricks.com/position-sticky-2/
+ * Code adapted from: https://css-tricks.com/snippets/css/complete-guide-grid/
+ */
+.xtrass_layout {
+    display: grid;
+    grid-template-columns: 210px 1fr;
+    gap: var(--bigger_space);
+    align-items: start;
+}
+
+.xtras_tab_sidebar {
+    position: sticky;
+    top: calc(60px + var(--big_space));
+}
+
+.xtras_tab_sidebar_title {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--grey_text_colour);
+    margin-bottom: var(--smol_space);
+    padding-left: var(--smol_space);
+}
+
+.xtras_tab_navi_list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+/**
+ * Tab buttons
+ * I spent way too long deciding between full-width buttons or something more compact.
+ * Eventually landed on justify-content: space-between so the icon sits on the left,
+ * the label in the middle, and any badge or indicator on the right.
+ * 
+ * The active state gets a border on the left side. Actually no -> it gets a full border.
+ * I tried left border only but it looked unbalanced, so full border it is.
+ * Code adapted from: https://arc.net/l/quote/twwxhcru
+ */
+.xtras_tab_nabi_button {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--smol_space);
+    padding: 0.5rem 0.75rem;
+    background: none;
+    border: 1px solid transparent;
+    border-radius: var(--corner_rounding);
+    font-family: var(--font_body);
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--grey_text_colour);
+    cursor: pointer;
+    text-align: left;
+    transition: background var(--transition),
+                color var(--transition),
+                border-color var(--transition);
+}
+
+.xtras_tab_nabi_button:hover {
+    background: var(--light_primary_colour);
+    color: var(--primary_colour);
+}
+
+.xtras_tab_nabi_button.active {
+    background: var(--light_primary_colour);
+    color: var(--primary_colour);
+    border-color: var(--primary_colour);
+}
+
+.xtras_tab_nabi_button .xtras_tab_icon {
+    font-size: 0.9rem;
+    flex-shrink: 0;
+}
+
+.xtras_tab_nabi_button .xtras_tab-label {
+    flex: 1;
+}
+
+/**
+ * Status badge for tabs
+ * Shows whether a tab's content has been completed or is still pending.
+ * I added this after realising users were clicking into tabs that hadn't
+ * been processed yet and getting confused. The badge gives a quick visual cue.
+ * 
+ * The "static" variant is for informational tabs that don't require processing.
+ * I probably should have named it something better, but here we are.
+ * Code adapted from: https://css-tricks.com/bem-101/
+ */
+.u_done_yet {
+    font-size: 0.7rem;
+    padding: 0.1rem 0.4rem;
+    border-radius: 20px;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.u_done_yet.done {
+    background: #d4edda;
+    color: var(--success_colour);
+}
+
+.u_done_yet.pending {
+    background: var(--border_colour);
+    color: var(--grey_text_colour);
+}
+
+.u_done_yet.static {
+    background: #eef3fb;
+    color: #2a52a0;
+}
+
+/**
+ * Tab content panels
+ * Simple show/hide toggling. I tried using display: grid initially for the active panel
+ * but it caused layout shifts. Keeping it simple with block works reliably.
+ */
+.tab_content_area {
+    min-width: 0;
+}
+
+.tab_content_panel {
+    display: none;
+}
+
+.tab_content_panel.active {
+    display: block;
+}
+
+/**
+ * Section headings inside tabs
+ * I wanted these to feel consistent with the rest of the site but a bit more compact
+ * since they appear inside the tab content area. The icon adds a nice visual anchor.
+ */
+.tab_setion_title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-bottom: var(--tiny_space);
+    display: flex;
+    align-items: center;
+    gap: var(--smol_space);
+}
+
+.tab_setion_title i {
+    color: var(--primary_colour);
+}
+
+/**
+ * Run button row
+ * Contains the main action button for executing analysis tasks.
+ * Kept it simple with flex and gap for spacing.
+ */
+.run_buttton_row {
+    display: flex;
+    align-items: center;
+    gap: var(--mid_space);
+    flex-wrap: wrap;
+    margin-bottom: var(--big_space);
+}
+
+/**
+ * Inline spinner for per-tab loading
+ * I wanted to show loading states without blocking the whole page.
+ * This tiny spinner sits next to whatever is loading.
+ * 
+ * Basically copy-pasted from previous scripts
+ * Code adapted from: https://css-tricks.com/css-loading-spinner/
+ */
+.pertab_inlinspiner {
+    display: none;
+    width: 18px;
+    height: 18px;
+    border: 2px solid var(--border_colour);
+    border-top-color: var(--primary_colour);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    flex-shrink: 0;
+}
+
+.pertab_inlinspiner.visible {
+    display: block;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/**
+ * Error banner
+ * Shows when something goes wrong during processing.
+ * I used a red-ish colour scheme that matches the danger colour variable in NCBI.
+ * The background came from trial and error -> I wanted something noticeable
+ * but not visually jarring. #fdf0ee ended up being the right balance.
+ */
+.errror_banner {
+    display: none;
+    background: #fdf0ee;
+    border: 1px solid #e8b4ae;
+    border-radius: var(--bigger_corner_rounding);
+    padding: var(--mid_space) var(--big_space);
+    color: var(--danger_colour);
+    font-size: 0.875rem;
+    margin-bottom: var(--big_space);
+    gap: var(--mid_space);
+    align-items: flex-start;
+}
+
+.errror_banner.visible {
+    display: flex;
+}
+
+/**
+ * Result tables
+ * These tables display BLAST hits, alignment data, and other structured results.
+ * 
+ * I originally used a much more complex table design with striped rows and hover effects.
+ * Stripped it back to something cleaner. The hover background is a subtle light blue-grey
+ * that I arrived at after trying about five different shades -> #f5fafb felt right.
+ * 
+ * The wrapper handles overflow scrolling on smaller screens. Without this,
+ * tables would break the layout on mobile devices.
+ * Almost basically copy-pasted from earlier scripts
+ * Code adapted from: https://css-tricks.com/complete-guide-table-element/
+ */
+.rezultss_table_wrapper {
+    overflow-x: auto;
+    border: 1px solid var(--border_colour);
+    border-radius: var(--bigger_corner_rounding);
+    margin-bottom: var(--big_space);
+}
+
+.rezultss_table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.855rem;
+}
+
+.rezultss_table th {
+    background: var(--light_primary_colour);
+    padding: 0.55rem var(--mid_space);
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.78rem;
+    letter-spacing: 0.04em;
+    color: var(--dark_primary_colour);
+    border-bottom: 1px solid var(--border_colour);
+    white-space: nowrap;
+}
+
+.rezultss_table td {
+    padding: 0.5rem var(--mid_space);
+    border-bottom: 1px solid var(--border_colour);
+    vertical-align: middle;
+}
+
+.rezultss_table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.rezultss_table tbody tr:hover {
+    background: #f5fafb;
+}
+
+/**
+ * Plot containers
+ * Where visualisations like sequence logos, bar charts, and structure diagrams live.
+ * 
+ * I went back and forth on whether to use a background colour or keep it transparent.
+ * The card background with a border ended up giving enough separation from the rest
+ * of the content without feeling like a separate box. The padding adds breathing room.
+ * Basically copy-pasted from previous scripts, but decided to keep it to default after trial-and-error
+ */
+.plotnchart_container {
+    background: var(--card_background_colour);
+    border: 1px solid var(--border_colour);
+    border-radius: var(--bigger_corner_rounding);
+    padding: var(--big_space);
+    margin-bottom: var(--big_space);
+}
+
+.plotnchart_title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--base_text_colour);
+    margin-bottom: var(--tiny_space);
+}
+
+.plotnchart_subtitle {
+    font-size: 0.78rem;
+    color: var(--grey_text_colour);
+    margin-bottom: var(--mid_space);
+}
+
+.plotnchart_img {
+    width: 100%;
+    border-radius: var(--corner_rounding);
+    border: 1px solid var(--border_colour);
+    display: block;
+}
+
+.plotnchart_missing {
+    padding: var(--bigger_space);
+    text-align: center;
+    color: var(--grey_text_colour);
+    font-size: 0.875rem;
+    border: 1px dashed var(--border_colour);
+    border-radius: var(--corner_rounding);
+}
+
+/**
+ * Biological callout
+ * A highlighted section for biological interpretation or context notes.
+ * 
+ * I wanted something that draws attention without being a full alert banner.
+ * The left border approach came from a few design patterns I saw in scientific papers.
+ * Using the primary colour for the border ties it back to the overall colour scheme.
+ * I don't think this is used anymore, but I'm paranoid so this stays here
+ */
+.biologica_callout {
+    background: var(--light_primary_colour);
+    border-left: 3px solid var(--primary_colour);
+    border-radius: 0 var(--corner_rounding) var(--corner_rounding) 0;
+    padding: var(--mid_space) var(--big_space);
+    font-size: 0.875rem;
+    color: var(--base_text_colour);
+    margin-bottom: var(--big_space);
+    line-height: 1.7;
+}
+
+.biologica_callout p {
+    margin-bottom: var(--tiny_space);
+}
+
+.biologica_callout p:last-child {
+    margin-bottom: 0;
+}
+
+/**
+ * Download buttons row
+ * Collection of buttons for exporting results in various formats.
+ * 
+ * I made these look like pills because the standard button style felt too heavy
+ * for a group of download options. The subtle hover effect gives feedback without
+ * being overwhelming.
+ * Basically copy-pasted from previous scripts
+ */
+.download_button_row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--smol_space);
+    margin-top: var(--mid_space);
+}
+
+.download_button {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--tiny_space);
+    padding: 0.35rem 0.9rem;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--primary_colour);
+    background: var(--light_primary_colour);
+    border: 1px solid var(--border_colour);
+    border-radius: var(--corner_rounding);
+    text-decoration: none;
+    transition: background var(--transition), border-color var(--transition);
+}
+
+.download_button:hover {
+    background: #d0e8ea;
+    border-color: var(--primary_colour);
+    text-decoration: none;
+    color: var(--dark_primary_colour);
+}
+
+/**
+ * External link pills
+ * Coloured badges for links to external databases -> UniProt, PDB, AlphaFold, etc.
+ * 
+ * I assigned each database a distinct colour scheme. This started as a quick
+ * way to make external links visually scannable. The colours are loosely based
+ * on the branding of each database, but I tweaked them to fit my colour palette.
+ * 
+ * UniProt gets blue, PDB gets amber, AlphaFold gets green, and so on.
+ * I tried making them all the same colour initially but that defeated the purpose.
+ * Code adapted from: https://css-tricks.com/mind-css-utility-classes/
+ */
+.exxterna_link_pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 0.15rem 0.55rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: opacity var(--transition);
+}
+
+.exxterna_link_pill:hover {
+    opacity: 0.78;
+    text-decoration: none;
+}
+
+.exxterna_link_pill_uniprot {
+    background: #e8f4fd;
+    color: #1a5ea0;
+    border: 1px solid #b8d8f0;
+}
+
+.exxterna_link_pill_pdb {
+    background: #fef5e7;
+    color: #9a5a10;
+    border: 1px solid #f0d8a8;
+}
+
+.exxterna_link_pill_alphafold {
+    background: #eef9f0;
+    color: #2a7a40;
+    border: 1px solid #b8e0c5;
+}
+
+.exxterna_link_pill_kegg {
+    background: #fdf0ee;
+    color: #9a2a1a;
+    border: 1px solid #f0b8ae;
+}
+
+.exxterna_link_pill_reactome {
+    background: #f5eef9;
+    color: #6a2a9a;
+    border: 1px solid #d5b8ef;
+}
+
+.exxterna_link_pill_pubmed {
+    background: #eef3fb;
+    color: #2a52a0;
+    border: 1px solid #c5d5ef;
+}
+
+.exxterna_link_pill_string {
+    background: #f5f9ee;
+    color: #4a7a2a;
+    border: 1px solid #c5e0b8;
+}
+
+/**
+ * BLAST e-value colour coding
+ * Different colours to quickly assess significance of BLAST hits.
+ * 
+ * I debated whether to use a gradient or discrete classes. Discrete classes
+ * give more control and let me define what "good" means in context.
+ * Good -> strong hits, ok -> moderate, weak -> probably not worth investigating.
+ */
+.bllast_evalue_good {
+    color: var(--success_colour);
+    font-weight: 600;
+}
+
+.bllast_evalue_ok {
+    color: var(--accent_colour);
+}
+
+.bllast_evalue_weak {
+    color: var(--grey_text_colour);
+}
+
+/**
+ * Mini stats cards
+ * Small cards displaying summary statistics -> number of sequences, coverage, etc.
+ * 
+ * I used grid with auto-fit so they wrap nicely on smaller screens.
+ * The cards felt too tall initially so I reduced the padding and made the value
+ * font significantly larger than the label. This creates a clear visual hierarchy.
+ * Almost copy-pasted from previous scripts
+ * Code adapted from: https://css-tricks.com/piecing-together-approaches-for-a-css-grid-layout/
+ */
+.mini_stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: var(--mid_space);
+    margin-bottom: var(--big_space);
+}
+
+.mini_stat {
+    background: var(--card_background_colour);
+    border: 1px solid var(--border_colour);
+    border-radius: var(--bigger_corner_rounding);
+    padding: var(--mid_space);
+    text-align: center;
+}
+
+.mini_stat_value {
+    font-family: var(--font_heading);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary_colour);
+    line-height: 1;
+    margin-bottom: var(--tiny_space);
+}
+
+.mini_stat_label {
+    font-size: 0.72rem;
+    color: var(--grey_text_colour);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+/**
+ * Secondary structure stacked bar
+ * Visual representation of protein secondary structure elements -> helix, sheet, turn, coil.
+ * 
+ * This took a few tries to get the colours right. I wanted them to be distinct
+ * but not clash with the rest of the colour palette. The red for helix and blue
+ * for sheet felt natural based on common visualisation conventions I have seen.
+ * 
+ * The overflow hidden and border radius combo makes the stacked bar look like
+ * a single cohesive unit rather than separate segments.
+ * Code adapted from https://css-tricks.com/css-bar-graphs/
+ */
+._2nd_structure_bar {
+    display: flex;
+    height: 22px;
+    border-radius: var(--corner_rounding);
+    overflow: hidden;
+    border: 1px solid var(--border_colour);
+}
+
+._2nd_structure_helix {
+    background: #e05c5c;
+}
+
+._2nd_structure_sheet {
+    background: #5c8ae0;
+}
+
+._2nd_structure_turn {
+    background: #e0b85c;
+}
+
+._2nd_structure_coil {
+    background: #c8d0d4;
+}
+
+/**
+ * BLAST accordion
+ * Expandable sections for showing BLAST hits per query sequence.
+ * 
+ * I implemented this after realising that listing all hits in a single table
+ * becomes overwhelming when there are multiple query sequences. The accordion
+ * lets users focus on one query at a time.
+ * 
+ * The header is clickable and toggles the body visibility. I used a border-bottom
+ * trick to keep the visual separation consistent when open vs closed.
+ * A neat trick I learnt from online
+ * Code adapted from: https://css-tricks.com/css-only-accordion/
+ */
+.bllast_accordion {
+    border: 1px solid var(--border_colour);
+    border-radius: var(--bigger_corner_rounding);
+    overflow: hidden;
+    margin-bottom: var(--big_space);
+}
+
+.bllast_accordion_header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.6rem var(--mid_space);
+    background: var(--light_primary_colour);
+    cursor: pointer;
+    font-size: 0.875rem;
+    font-weight: 600;
+    border-bottom: 1px solid var(--border_colour);
+    user-select: none;
+}
+
+.bllast_accordion_header:last-of-type {
+    border-bottom: none;
+}
+
+.bllast_accordion_header.open {
+    border-bottom: 1px solid var(--border_colour);
+}
+
+.bllast_accordion_body {
+    display: none;
+    overflow-x: auto;
+}
+
+.bllast_accordion_body.open {
+    display: block;
+}
+
+/**
+ * Proceed row
+ * Action buttons at the bottom of the page to move to the next step.
+ * 
+ * I added a border-top to visually separate this from the content above.
+ * It creates a clear "this is the end of the section" boundary.
+ */
+.proceed_row {
+    display: flex;
+    align-items: center;
+    gap: var(--mid_space);
+    flex-wrap: wrap;
+    padding-top: var(--big_space);
+    border-top: 1px solid var(--border_colour);
+    margin-top: var(--bigger_space);
+}
+
+/**
+ * Responsive adjustments
+ * Making the tab layout work on smaller screens.
+ * 
+ * I originally tried to keep the vertical sidebar on tablets but it just
+ * didn't work well. So I gave up and made it stack -> the tabs become
+ * a horizontal row that wraps. It is not perfect but it is usable.
+ * 
+ * The button styling changes too. On mobile they get smaller padding and
+ * a column layout so the icon sits above the label. I went back and forth
+ * on whether to keep the icon on the left. Column layout ended up being
+ * more space efficient for narrow screens.
+ * Mostly adapted from previous scripts, but needed heavy edits
+ * Code adapted from https://css-tricks.com/responsive-menu-concepts/
+ */
+@media (max-width: 860px) {
+    .xtrass_layout {
+        grid-template-columns: 1fr;
+    }
+
+    .xtras_tab_sidebar {
+        position: static;
+    }
+
+    .xtras_tab_navi_list {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    .xtras_tab_nabi_button {
+        width: auto;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 2px;
+        padding: 0.4rem 0.6rem;
+        font-size: 0.78rem;
+    }
+}

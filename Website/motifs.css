@@ -1,0 +1,591 @@
+/**
+ * motifs.css
+ * 
+ * Styles for the motif analysis results page. Took a few tries to get all these
+ * components playing nicely together without feeling too cluttered.
+ */
+
+/** 
+ * Job context bar
+ * 
+ * This little bar sits at the top showing the current job ID and key parameters.
+ * Wanted it to be noticeable but not distracting, so it uses the light primary
+ * colour. Flexbox with wrapping means it won't break on smaller screens.
+ * Recycled code from other pages, but I had to edit them a bit
+ * Code adapted from: https://css-tricks.com/snippets/css/a-guide-to-flexbox/
+ */
+.job_contexxt {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--mid_space);
+    padding: var(--smol_space) var(--big_space);
+    background: var(--light_primary_colour);
+    border: 1px solid var(--border_colour);
+    border-radius: var(--corner_rounding);
+    font-size: 0.85rem;
+    margin-bottom: var(--bigger_space);
+}
+.job_contexxt_bar_item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    color: var(--grey_text_colour);
+}
+.job_contexxt_bar_item strong { color: var(--base_text_colour); }
+.job_contexxt_bar_separater  { color: var(--border_colour); }
+
+/** 
+ * Step breadcrumb
+ * 
+ * Shows where the user is in the workflow. I went back and forth on whether to
+ * use icons here, but ended up keeping it simple with just text and separators.
+ * Mostly recycled code from other pages, but I had to edit them a bit
+ * Code adapted from: https://smolcss.dev/
+ */
+.step_breaddcrum {
+    display: flex;
+    align-items: center;
+    gap: var(--smol_space);
+    margin-bottom: var(--bigger_space);
+    font-size: 0.82rem;
+    flex-wrap: wrap;
+}
+.step_breaddcrum_item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    color: var(--grey_text_colour);
+}
+.step_breaddcrum_item.done   { color: var(--success_colour); }
+.step_breaddcrum_item.active { color: var(--primary_colour); font-weight: 600; }
+.step_breaddcrum_sep { color: var(--border_colour); }
+
+/** 
+ * Options card
+ * 
+ * Wraps the parameter selection area. Tried a few different padding values here
+ * before landing on this one -> felt cramped before, too spacious after.
+ */
+.optionss_card {
+    background: var(--card_background_colour);
+    border: 1px solid var(--border_colour);
+    border-radius: var(--bigger_corner_rounding);
+    padding: var(--bigger_space);
+    margin-bottom: var(--big_space);
+}
+
+/** 
+ * Field groups
+ * 
+ * Labels and hints for form inputs. The letter-spacing on the label felt a bit
+ * much at first, but after living with it for a while I think it adds a nice
+ * touch of polish.
+ */
+.feildd_group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+}
+.feildd_group label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--base_text_colour);
+    letter-spacing: 0.03em;
+}
+.feildd_hint {
+    font-size: 0.78rem;
+    color: var(--grey_text_colour);
+}
+
+/** 
+ * Toggle switch
+ * 
+ * Borrowed this from fetch.php because it worked well there. No need to
+ * reinvent the wheel for something this straightforward.
+ * Code adapted from: https://css-tricks.com/css-only-checkbox-toggle-switch/
+ */
+.refseq_toggle_row {
+    display: flex;
+    align-items: center;
+    gap: var(--smol_space);
+}
+.refseq_toggle_switch {
+    position: relative;
+    width: 38px;
+    height: 20px;
+    flex-shrink: 0;
+}
+.refseq_toggle_switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+.refseq_toggle_slider {
+    position: absolute;
+    inset: 0;
+    background: var(--border_colour);
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background var(--transition);
+}
+.refseq_toggle_slider::before {
+    content: '';
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    left: 3px;
+    top: 3px;
+    background: #fff;
+    border-radius: 50%;
+    transition: transform var(--transition);
+}
+.refseq_toggle_switch input:checked + .refseq_toggle_slider {
+    background: var(--primary_colour);
+}
+.refseq_toggle_switch input:checked + .refseq_toggle_slider::before {
+    transform: translateX(18px);
+}
+
+/** 
+ * Job status bar
+ * 
+ * Shows progress while the scan runs. I initially had this as a fixed element,
+ * but that got annoying fast -> switched to inline and never looked back.
+ * Recycled code from other progress pages
+ * Code adapted from: https://css-tricks.com/css-loading-spinner/
+ */
+.job_status_bar {
+    display: none;
+    align-items: center;
+    gap: var(--mid_space);
+    padding: var(--mid_space) var(--big_space);
+    background: var(--light_primary_colour);
+    border: 1px solid var(--border_colour);
+    border-radius: var(--bigger_corner_rounding);
+    margin-bottom: var(--big_space);
+}
+.job_status_bar.visible { display: flex; }
+
+.spinner {
+    width: 20px;
+    height: 20px;
+    border: 3px solid var(--border_colour);
+    border-top-color: var(--primary_colour);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    flex-shrink: 0;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.progress_track {
+    flex: 1;
+    height: 6px;
+    background: var(--border_colour);
+    border-radius: 3px;
+    overflow: hidden;
+}
+.progress_bar {
+    height: 100%;
+    width: 0%;
+    background: var(--primary_colour);
+    border-radius: 3px;
+    transition: width 0.4s ease;
+}
+#status_message {
+    font-size: 0.85rem;
+    color: var(--grey_text_colour);
+    white-space: nowrap;
+}
+
+/** 
+ * Error banner
+ * 
+ * Pops up when something goes wrong. The red colour is a bit aggressive, but
+ * that's kind of the point -> you shouldn't miss it.
+ */
+.errror_banner {
+    display: none;
+    background: #fdf0ee;
+    border: 1px solid #e8b4ae;
+    border-radius: var(--bigger_corner_rounding);
+    padding: var(--mid_space) var(--big_space);
+    color: var(--danger_colour);
+    font-size: 0.9rem;
+    margin-bottom: var(--big_space);
+    gap: var(--mid_space);
+    align-items: flex-start;
+}
+.errror_banner.visible { display: flex; }
+
+/** 
+ * Results section
+ * 
+ * Hidden until the job completes. Keeps the page from showing empty containers
+ * while people are waiting for the scan to finish.
+ */
+.rezults_section { display: none; }
+.rezults_section.visible { display: block; }
+
+/** 
+ * Summary stats cards
+ * 
+ * Quick glance numbers for the run. The grid layout with auto-fit means it
+ * scales down nicely on smaller screens -> tried a fixed column layout first
+ * and it looked terrible on phones.
+ * Code adapted from other pages and: https://css-tricks.com/piecing-together-approaches-for-a-css-grid-layout/
+ */
+.summ_stats_cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: var(--mid_space);
+    margin-bottom: var(--bigger_space);
+}
+.summ_stats_card {
+    background: var(--card_background_colour);
+    border: 1px solid var(--border_colour);
+    border-radius: var(--bigger_corner_rounding);
+    padding: var(--mid_space) var(--big_space);
+    text-align: center;
+}
+.summ_stats_value {
+    font-family: var(--font_heading);
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--primary_colour);
+    line-height: 1;
+    margin-bottom: var(--space-xs);
+}
+.summ_stats_label {
+    font-size: 0.78rem;
+    color: var(--grey_text_colour);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+/** 
+ * Plot containers
+ * 
+ * Wraps any charts or visualisations. The header area lets me put titles and
+ * maybe download buttons without messing with the layout too much.
+ */
+.plotnchart_-container {
+    background: var(--card_background_colour);
+    border: 1px solid var(--border_colour);
+    border-radius: var(--bigger_corner_rounding);
+    padding: var(--big_space);
+    margin-bottom: var(--big_space);
+}
+.plotnchart_-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: var(--mid_space);
+    margin-bottom: var(--mid_space);
+}
+.plotnchart_-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--base_text_colour);
+    margin-bottom: 2px;
+}
+.plotnchart_-subtitle {
+    font-size: 0.78rem;
+    color: var(--grey_text_colour);
+}
+
+/** 
+ * Motif domain map SVG wrapper
+ * 
+ * Lets users scroll if the map gets too wide. I originally set a fixed width
+ * and got yelled at by people with smaller screens -> lesson learned.
+ */
+.motf_domainmap_wrapper {
+    overflow-x: auto;
+    overflow-y: auto;
+    max-height: 600px;
+    border: 1px solid var(--border_colour);
+    border-radius: var(--corner_rounding);
+    padding: var(--smol_space);
+    background: var(--card_background_colour);
+}
+.motf_domainmap_wrapper svg {
+    display: block;
+    min-width: 500px;
+}
+
+/** 
+ * Canvas fallback
+ * 
+ * Just in case SVG rendering acts up. Haven't actually needed this much, but
+ * it's nice to have a backup plan.
+ */
+#motf_domainmap_canvas {
+    display: block;
+    width: 100%;
+}
+
+/** 
+ * Motif summary table
+ * 
+ * Main results table. The sortable headers were a pain to get right -> had to
+ * tweak the cursor and user-select properties so it felt natural to click.
+ * Code adapted from: https://developer.mozilla.org/en-US/docs/Web/SVG and https://developer.mozilla.org/en-US/docs/Web/CSS/overflow
+ */
+.motif_tablewrap {
+    overflow-x: auto;
+    border: 1px solid var(--border_colour);
+    border-radius: var(--bigger_corner_rounding);
+    margin-bottom: var(--big_space);
+}
+.motif_table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+}
+.motif_table th {
+    background: var(--light_primary_colour);
+    padding: 0.6rem var(--mid_space);
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.8rem;
+    letter-spacing: 0.04em;
+    color: var(--dark_primary_colour);
+    border-bottom: 1px solid var(--border_colour);
+    white-space: nowrap;
+    cursor: pointer;
+    user-select: none;
+}
+.motif_table th:hover { background: #d0e8ea; }
+.motif_table td {
+    padding: 0.5rem var(--mid_space);
+    border-bottom: 1px solid var(--border_colour);
+    vertical-align: middle;
+}
+.motif_table tbody tr:last-child td { border-bottom: none; }
+.motif_table tbody tr:hover { background: #f5fafb; }
+
+/** 
+ * PROSITE ID link
+ * 
+ * Makes those identifiers stand out. Using the monospace font felt right
+ * since these are technically codes, not regular text.
+ */
+.prosiet_id_link {
+    font-family: var(--font_code);
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--primary_colour);
+}
+
+/** 
+ * Coverage bar
+ * 
+ * Visual representation of how much of the sequence is covered. Kept it
+ * intentionally narrow so it doesn't overpower the table row.
+ * Code adapted from: https://css-tricks.com/css-bar-graphs/
+ */
+.coverage_bartrack {
+    background: var(--border_colour);
+    border-radius: 3px;
+    height: 8px;
+    width: 100px;
+    overflow: hidden;
+    display: inline-block;
+}
+.coverage_barfill {
+    height: 100%;
+    background: var(--primary_colour);
+    border-radius: 3px;
+    display: block;
+}
+
+/** 
+ * Per-sequence accordion
+ * 
+ * Expandable sections for each sequence's hits. I waffled on whether to use
+ * details/summary or roll my own, but I wanted more control over the styling
+ * so here we are.
+ * Code adapted from: https://css-tricks.com/css-only-accordion/
+ */
+.perseqquenc_accordion {
+    border: 1px solid var(--border_colour);
+    border-radius: var(--bigger_corner_rounding);
+    overflow: hidden;
+    margin-bottom: var(--big_space);
+}
+.perseqquenc_accordion_header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.6rem var(--mid_space);
+    background: var(--card_background_colour);
+    cursor: pointer;
+    border-bottom: 1px solid var(--border_colour);
+    font-size: 0.875rem;
+    transition: background var(--transition);
+    user-select: none;
+}
+.perseqquenc_accordion_header:last-of-type { border-bottom: none; }
+.perseqquenc_accordion_header:hover { background: var(--light_primary_colour); }
+.perseqquenc_accordion_header.open { background: var(--light_primary_colour); }
+.perseqquenc_accordion_left {
+    display: flex;
+    align-items: center;
+    gap: var(--mid_space);
+}
+.perseqquenc_accordion_chevron {
+    color: var(--primary_colour);
+    transition: transform var(--transition);
+    flex-shrink: 0;
+}
+.perseqquenc_accordion_header.open .perseqquenc_accordion_chevron {
+    transform: rotate(90deg);
+}
+.perseqquenc_accordion_body {
+    display: none;
+    overflow-x: auto;
+    border-top: 1px solid var(--border_colour);
+}
+.perseqquenc_accordion_body.open { display: block; }
+
+/** 
+ * Hit detail table
+ * 
+ * Nested table inside each accordion. Made the text a touch smaller because
+ * these rows can get pretty dense.
+ * Code adapted from: https://css-tricks.com/complete-guide-table-element/
+ */
+.hit_table_perseqquenc_accordion {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.82rem;
+}
+.hit_table_perseqquenc_accordion th {
+    background: #f5fafb;
+    padding: 0.45rem var(--mid_space);
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.75rem;
+    letter-spacing: 0.04em;
+    color: var(--grey_text_colour);
+    border-bottom: 1px solid var(--border_colour);
+    white-space: nowrap;
+}
+.hit_table_perseqquenc_accordion td {
+    padding: 0.4rem var(--mid_space);
+    border-bottom: 1px solid var(--border_colour);
+}
+.hit_table_perseqquenc_accordion tbody tr:last-child td { border-bottom: none; }
+
+/** 
+ * Motif colour dots
+ * 
+ * Consistent colours per motif helps with visual tracking across tables and
+ * the domain map. I let the JavaScript assign these colours dynamically.
+ */
+.motif_colour_dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+    flex-shrink: 0;
+}
+
+/** 
+ * No hits message
+ * 
+ * Friendly placeholder when nothing is found. The dashed border felt less
+ * aggressive than a solid one -> didn't want to alarm people.
+ */
+.whups_no_hits_message {
+    padding: var(--bigger_space);
+    text-align: center;
+    color: var(--grey_text_colour);
+    font-size: 0.9rem;
+    border: 1px dashed var(--border_colour);
+    border-radius: var(--bigger_corner_rounding);
+    margin-bottom: var(--big_space);
+}
+
+/** 
+ * Biological callout
+ * 
+ * Highlights interesting biological interpretations. The left border is a
+ * subtle way to draw attention without screaming at the user.
+ * I don't think this is used anymore, but I'm paranoid, so I'm keeping it here
+ * Code adapted from: https://developer.mozilla.org/en-US/docs/Web/CSS/border-left
+ */
+.biologica_callout {
+    background: var(--light_primary_colour);
+    border-left: 3px solid var(--primary_colour);
+    border-radius: 0 var(--corner_rounding) var(--corner_rounding) 0;
+    padding: var(--mid_space) var(--big_space);
+    font-size: 0.875rem;
+    color: var(--base_text_colour);
+    margin-bottom: var(--big_space);
+    line-height: 1.7;
+}
+.biologica_callout p { margin-bottom: var(--space-xs); }
+.biologica_callout p:last-child { margin-bottom: 0; }
+
+/** 
+ * Download row
+ * 
+ * Buttons for exporting results. Kept them subtle because they're secondary
+ * actions -> the main thing is looking at the data.
+ * Code adapted from: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_flexible_box_layout
+ */
+.download_button_row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--smol_space);
+    margin-top: var(--mid_space);
+}
+.download_button {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    padding: 0.35rem 0.9rem;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--primary_colour);
+    background: var(--light_primary_colour);
+    border: 1px solid var(--border_colour);
+    border-radius: var(--corner_rounding);
+    text-decoration: none;
+    transition: background var(--transition), border-color var(--transition);
+}
+.download_button:hover {
+    background: #d0e8ea;
+    border-color: var(--primary_colour);
+    text-decoration: none;
+    color: var(--dark_primary_colour);
+}
+
+/** 
+ * Proceed row
+ * 
+ * Navigation buttons at the bottom. The top border helps visually separate it
+ * from the content above.
+ */
+.proceed_row {
+    display: flex;
+    align-items: center;
+    gap: var(--mid_space);
+    flex-wrap: wrap;
+    padding-top: var(--big_space);
+    border-top: 1px solid var(--border_colour);
+    margin-top: var(--bigger_space);
+}
+
+/** 
+ * Responsive tweaks
+ * 
+ * Stuff that only kicks in on smaller screens. Learned the hard way that
+ * 640px is the sweet spot where things start to look weird.
+ */
+@media (max-width: 640px) {
+    .summ_stats_cards { grid-template-columns: repeat(2, 1fr); }
+}

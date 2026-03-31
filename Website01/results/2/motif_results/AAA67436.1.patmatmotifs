@@ -1,0 +1,35 @@
+########################################
+# Program: patmatmotifs
+# Rundate: Sun 29 Mar 2026 18:37:22
+# Commandline: patmatmotifs
+#    -sequence /localdisk/home/s2238539/public_html/Website/results/2/motif_results/AAA67436.1.fasta
+#    -outfile /localdisk/home/s2238539/public_html/Website/results/2/motif_results/AAA67436.1.patmatmotifs
+#    -full
+# Report_format: dbmotif
+# Report_file: /localdisk/home/s2238539/public_html/Website/results/2/motif_results/AAA67436.1.patmatmotifs
+########################################
+
+#=======================================
+#
+# Sequence: AAA67436.1     from: 1   to: 1009
+# HitCount: 1
+#
+# Full: Yes
+# Prune: Yes
+# Data_file: /usr/share/EMBOSS/data/PROSITE/prosite.lines
+#
+#=======================================
+
+Length = 10
+Start = position 775 of sequence
+End = position 784 of sequence
+
+Motif = ZF_RING_1
+
+PVITHCAHVFCKPCICQVIQ
+     |        |
+   775        784
+
+
+#---------------------------------------
+#---------------------------------------

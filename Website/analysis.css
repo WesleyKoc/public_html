@@ -1,0 +1,548 @@
+/**
+ * Styles specific to the analysis page
+ *
+ * This file handles all the visual bits for the main analysis workflow -> the
+ * options form, progress tracking, and the results display with all its charts
+ * and interactive elements.
+ * Forgive the misspellings, a lot of it was copy-pasted from other scripts to match the styles
+ */
+
+/**
+ * Options form card -> the main container where the user picks their settings
+ *
+ * I wanted this to feel like a contained unit, separate from the rest of the
+ * page. The background, border, and padding all work together to create a
+ * distinct "control panel" area. Tried a few different padding sizes before
+ * landing on this one -> it felt too cramped with less, and too disconnected
+ * with more.
+ */
+.optionss_form_card {
+    background: var(--card_background_colour);
+    border: 1px solid var(--border_colour);
+    border-radius: var(--bigger_corner_rounding);
+    padding: var(--bigger_space);
+    margin-bottom: var(--big_space);
+}
+
+/**
+ * Grid layout for the form fields
+ *
+ * This makes the form responsive without needing a million media queries.
+ * `auto-fit` with a minmax of 200px means each field gets at least 200px,
+ * and they'll wrap onto new lines as the screen gets smaller. Took me a while
+ * to get the gap right -> the fields felt too squished together initially,
+ * so I bumped it up to `var(--big_space)` for a more comfortable feel.
+ * Code adapted from: https://css-tricks.com/snippets/css/complete-guide-grid/
+ * Code adapted from: https://arc.net/l/quote/vzbwfzmj
+ */
+.optionss_form_grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--big_space);
+    margin-bottom: var(--big_space);
+}
+
+/**
+ * Field groups -> labels and inputs living together in harmony
+ *
+ * I recycled this style from fetch.php because it just worked. The flex
+ * column layout is a no-brainer for forms. I played around with the label
+ * size for a bit -> 0.85rem felt just right, not too shouty but still
+ * clearly distinct from the input text.
+ * Code adapted from: https://developer.mozilla.org/en-US/docs/Web/CSS/:focus
+ */
+.feildd_group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--tiny_space);
+}
+.feildd_group label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--base_text_colour);
+    letter-spacing: 0.03em;
+}
+.feildd_group select,
+.feildd_group input[type="number"] {
+    padding: 0.55rem 0.75rem;
+    border: 1px solid var(--border_colour);
+    border-radius: var(--corner_rounding);
+    font-family: var(--font_body);
+    font-size: 0.95rem;
+    color: var(--base_text_colour);
+    background: var(--card_background_colour);
+    transition: border-color var(--transition), box-shadow var(--transition);
+}
+.feildd_group select:focus,
+.feildd_group input[type="number"]:focus {
+    outline: none;
+    border-color: var(--primary_colour);
+    box-shadow: 0 0 0 3px rgba(26,107,114,0.12);
+}
+.feildd_hint {
+    font-size: 0.78rem;
+    color: var(--grey_text_colour);
+}
+
+/**
+ * Checkbox group -> for when a simple list of options is needed
+ *
+ * I went back and forth on whether to use a grid here, but a simple flex column
+ * with gap worked out cleaner. The `accent-color` property is a godsend -> I
+ * used to have to style checkboxes with all sorts of hacks, now it's just one
+ * line and it respects the brand colour.
+ */
+.chekbox_group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--smol_space);
+}
+.chekbox_roww {
+    display: flex;
+    align-items: center;
+    gap: var(--smol_space);
+    font-size: 0.88rem;
+}
+.chekbox_roww input[type="checkbox"] {
+    accent-color: var(--primary_colour);
+    width: 15px;
+    height: 15px;
+}
+
+/**
+ * Job context bar -> a little status indicator for the current run
+ *
+ * This was a late addition. I realised users needed to know what they were
+ * looking at, especially if they'd been away from the page or were running
+ * multiple analyses. The light background makes it stand out, but not so much
+ * that it distracts from the main form. The flex wrap ensures it doesn't break
+ * on smaller screens, which I definitely broke a few times while testing.
+ * Code adapted from: https://css-tricks.com/snippets/css/a-guide-to-flexbox/
+ */
+.job_contexxt_bar {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--mid_space);
+    padding: var(--smol_space) var(--big_space);
+    background: var(--light_primary_colour);
+    border: 1px solid var(--border_colour);
+    border-radius: var(--corner_rounding);
+    font-size: 0.85rem;
+    margin-bottom: var(--bigger_space);
+}
+.job_contexxt_bar_item {
+    display: flex;
+    align-items: center;
+    gap: var(--tiny_space);
+    color: var(--grey_text_colour);
+}
+.job_contexxt_bar_item strong {
+    color: var(--base_text_colour);
+}
+.job_contexxt_bar_separater {
+    color: var(--border_colour);
+}
+
+/**
+ * Job status bar -> shows progress while the analysis is running
+ *
+ * I mimicked the style from fetch.php to keep the UI consistent. The spinner
+ * animation was a bit of a headache to get right -> the rotation timing felt
+ * too fast at first, 0.8s was the sweet spot. It's hidden by default and only
+ * gets the `visible` class when a job is running.
+ * Code adapted from: https://developer.mozilla.org/en-US/docs/Web/CSS/@keyframes
+ */
+.job_status_bar {
+    display: none;
+    align-items: center;
+    gap: var(--mid_space);
+    padding: var(--mid_space) var(--big_space);
+    background: var(--light_primary_colour);
+    border: 1px solid var(--border_colour);
+    border-radius: var(--bigger_corner_rounding);
+    margin-bottom: var(--big_space);
+}
+.job_status_bar.visible {
+    display: flex;
+}
+.spinner {
+    width: 20px;
+    height: 20px;
+    border: 3px solid var(--border_colour);
+    border-top-color: var(--primary_colour);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    flex-shrink: 0;
+}
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+.progress_track {
+    flex: 1;
+    height: 6px;
+    background: var(--border_colour);
+    border-radius: 3px;
+    overflow: hidden;
+}
+.progress_bar {
+    height: 100%;
+    width: 0%;
+    background: var(--primary_colour);
+    border-radius: 3px;
+    transition: width 0.4s ease;
+}
+#status_message {
+    font-size: 0.85rem;
+    color: var(--grey_text_colour);
+    white-space: nowrap;
+}
+
+/**
+ * Error banner -> because things will go wrong, and I need to let the user know
+ *
+ * I spent way too much time picking these colours. The red felt too harsh,
+ * so I went with a softer, more approachable orange-red mix. The border
+ * colour came from a happy accident when I mis-typed a colour value and
+ * ended up liking the result. It's hidden until an error occurs.
+ */
+.errror_banner {
+    display: none;
+    background: #fdf0ee;
+    border: 1px solid #e8b4ae;
+    border-radius: var(--bigger_corner_rounding);
+    padding: var(--mid_space) var(--big_space);
+    color: var(--danger_colour);
+    font-size: 0.9rem;
+    margin-bottom: var(--big_space);
+    gap: var(--mid_space);
+    align-items: flex-start;
+}
+.errror_banner.visible {
+    display: flex;
+}
+
+/**
+ * Results section -> where all the good stuff appears
+ *
+ * Hidden until the analysis completes. I was going to keep it on the page
+ * with a "loading" state, but it was too much visual clutter. So now it
+ * only shows up when there's data to display.
+ */
+.rezults_section {
+    display: none;
+}
+.rezults_section.visible {
+    display: block;
+}
+
+/**
+ * Summary stats cards -> quick numbers for the big picture
+ *
+ * I love this pattern. It's a clean way to show key metrics without
+ * overwhelming the user with the full data. The `auto-fit` grid makes it
+ * responsive, and the centred text with the large primary-coloured value
+ * draws the eye. I originally had them in a row with fixed widths, but
+ * that broke on mobile -> this is way more resilient.
+ * Code adapted from: https://css-tricks.com/snippets/css/complete-guide-grid/
+ * Code adapted from: https://arc.net/l/quote/vzbwfzmj
+ */
+.summ_stats_cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: var(--mid_space);
+    margin-bottom: var(--bigger_space);
+}
+.summ_stats_card {
+    background: var(--card_background_colour);
+    border: 1px solid var(--border_colour);
+    border-radius: var(--bigger_corner_rounding);
+    padding: var(--mid_space) var(--big_space);
+    text-align: center;
+}
+.summ_stats_value {
+    font-family: var(--font_heading);
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--primary_colour);
+    line-height: 1;
+    margin-bottom: var(--tiny_space);
+}
+.summ_stats_label {
+    font-size: 0.78rem;
+    color: var(--grey_text_colour);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+/**
+ * Plot and chart containers -> the main visualisation area
+ *
+ * I wanted a consistent card-like container for all the different plots.
+ * The padding and border-radius give it that "contained" look, and the
+ * header area lets me add titles and options without cluttering the
+ * actual chart space.
+ * Code adapted from: https://css-tricks.com/snippets/css/a-guide-to-flexbox/
+ */
+.plotnchart_container {
+    background: var(--card_background_colour);
+    border: 1px solid var(--border_colour);
+    border-radius: var(--bigger_corner_rounding);
+    padding: var(--big_space);
+    margin-bottom: var(--big_space);
+}
+.plotnchart_header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: var(--mid_space);
+    margin-bottom: var(--mid_space);
+}
+.plotnchart_title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--base_text_colour);
+    margin-bottom: var(--tiny_space);
+}
+.plotnchart_subtitle {
+    font-size: 0.78rem;
+    color: var(--grey_text_colour);
+}
+
+/**
+ * Tabs for interactive vs static views
+ *
+ * This was a bit of an over-engineering moment. I thought why not let users
+ * choose between the interactive chart and a static one? In hindsight
+ * maybe not necessary, but it works and looks slick. The active tab gets
+ * a bottom border in the primary colour to indicate selection.
+ * Code adapted from: https://developer.mozilla.org/en-US/docs/Web/CSS/display
+ * Code adapted from: https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Transitions/Using
+ */
+.plotnchart_tabs {
+    display: flex;
+    gap: 0;
+    border-bottom: 1px solid var(--border_colour);
+    margin-bottom: var(--big_space);
+}
+.plotnchart_tab {
+    padding: 0.45rem var(--mid_space);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--grey_text_colour);
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    transition: color var(--transition), border-color var(--transition);
+}
+.plotnchart_tab:hover {
+    color: var(--primary_colour);
+}
+.plotnchart_tab.active {
+    color: var(--primary_colour);
+    border-bottom-color: var(--primary_colour);
+}
+.plotnchart_panel {
+    display: none;
+}
+.plotnchart_panel.active {
+    display: block;
+}
+
+/**
+ * Conservation score colour legend
+ *
+ * I needed a way to explain what the colours on the heatmap mean without
+ * relying on the user guessing. This little gradient bar is my solution.
+ * I picked the colours after a lot of trial and error -> I wanted something
+ * intuitive: red for low conservation (bad), yellow for moderate, and green
+ * for high (good). The gradient makes it feel continuous.
+ */
+.conservation_score_legend {
+    display: flex;
+    align-items: center;
+    gap: var(--smol_space);
+    font-size: 0.78rem;
+    color: var(--grey_text_colour);
+}
+.score_legend_gradient {
+    width: 120px;
+    height: 10px;
+    border-radius: 5px;
+    background: linear-gradient(to right, #d94f3d, #e8a020, #2e7d4f);
+    border: 1px solid var(--border_colour);
+}
+
+/**
+ * Heatmap canvas wrapper -> handles scrolling for large matrices
+ *
+ * The heatmap can get huge. I learned the hard way that just letting it
+ * overflow the container is a bad idea. This wrapper adds scrollbars when
+ * needed, and the max-height prevents it from taking over the entire page.
+ * I initially set it to 400px, but that cut off too much, so I bumped it
+ * to 520px.
+ * Code adapted from: https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/scroll-margin-top
+ * I don't think this is used anymore but left here just in case
+ */
+.hetmap_wrapper {
+    overflow-x: auto;
+    overflow-y: auto;
+    max-height: 520px;
+}
+#idntity_hetmap {
+    display: block;
+}
+
+/**
+ * Highlighted conserved regions bar
+ *
+ * This is a neat visual trick -> it shows the conservation across the sequence
+ * in a compact bar graph. I had the idea from looking at similar tools, and it
+ * took a few iterations to get the height and border right. It's a quick way
+ * to see where the highly conserved regions are without looking at the full
+ * heatmap.
+ */
+.highlit_conserved_barwrap {
+    margin-top: var(--mid_space);
+}
+.highlit_conserved_barlabel {
+    font-size: 0.78rem;
+    color: var(--grey_text_colour);
+    margin-bottom: var(--tiny_space);
+}
+#highlit_conserved_regions_bar {
+    width: 100%;
+    height: 18px;
+    border-radius: var(--corner_rounding);
+    border: 1px solid var(--border_colour);
+}
+
+/**
+ * Download buttons row -> let users save their results
+ *
+ * I wanted these to be prominent but not distracting. The outline style with
+ * the light background on hover feels interactive without being too aggressive.
+ * I considered making them bigger, but they would have overpowered the rest
+ * of the section.
+ */
+.download_button_row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--smol_space);
+    margin-top: var(--mid_space);
+}
+.download_button {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--tiny_space);
+    padding: 0.35rem 0.9rem;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--primary_colour);
+    background: var(--light_primary_colour);
+    border: 1px solid var(--border_colour);
+    border-radius: var(--corner_rounding);
+    text-decoration: none;
+    transition: background var(--transition), border-color var(--transition);
+}
+.download_button:hover {
+    background: #d0e8ea;
+    border-color: var(--primary_colour);
+    text-decoration: none;
+    color: var(--dark_primary_colour);
+}
+
+/**
+ * Proceed row -> for moving to the next step or restarting
+ *
+ * I'm keeping the pattern consistent across pages -> a row with a primary
+ * action button and maybe some secondary links. The border top visually
+ * separates it from the main content, which helps with the flow.
+ * Code adapted from: https://css-tricks.com/snippets/css/a-guide-to-flexbox/
+ */
+.proceed_row {
+    display: flex;
+    align-items: center;
+    gap: var(--mid_space);
+    flex-wrap: wrap;
+    padding-top: var(--big_space);
+    border-top: 1px solid var(--border_colour);
+    margin-top: var(--bigger_space);
+}
+
+/**
+ * Step breadcrumb -> user orientation for multi-step processes
+ *
+ * This was a later addition after I got feedback that users were getting lost
+ * in the workflow. It's not a full page indicator, but it shows where they are
+ * in the analysis pipeline. The different colours for done, active, and future
+ * steps are subtle but effective.
+ */
+.step_breaddcrum {
+    display: flex;
+    align-items: center;
+    gap: var(--smol_space);
+    margin-bottom: var(--bigger_space);
+    font-size: 0.82rem;
+}
+.step_breaddcrum_item {
+    display: flex;
+    align-items: center;
+    gap: var(--tiny_space);
+    color: var(--grey_text_colour);
+}
+.step_breaddcrum_item.done {
+    color: var(--success_colour);
+}
+.step_breaddcrum_item.active {
+    color: var(--primary_colour);
+    font-weight: 600;
+}
+.step_breaddcrum_sep {
+    color: var(--border_colour);
+}
+
+/**
+ * Info callout box -> for tips, warnings, or extra context
+ *
+ * I used a left border in the primary colour to make it stand out without
+ * being too loud. It's a good way to break up the page and provide
+ * supplementary information that shouldn't be missed.
+ */
+.informant_callout {
+    background: var(--light_primary_colour);
+    border-left: 3px solid var(--primary_colour);
+    border-radius: 0 var(--corner_rounding) var(--corner_rounding) 0;
+    padding: var(--mid_space) var(--big_space);
+    font-size: 0.875rem;
+    color: var(--base_text_colour);
+    margin-bottom: var(--big_space);
+}
+.informant_callout p {
+    margin-bottom: var(--tiny_space);
+}
+.infomant_callout p:last-child {
+    margin-bottom: 0;
+}
+
+/**
+ * Responsive tweaks -> making it all work on smaller screens
+ *
+ * I spent a lot of time here. The initial design looked great on my big monitor,
+ * but on a phone it was a disaster. The media query collapses the form grid
+ * to a single column and adjusts the stats cards to two per row. It's not
+ * perfect, but it's usable, which is the main goal.
+ * Code adapted from: https://css-tricks.com/a-complete-guide-to-css-media-queries/
+ */
+@media (max-width: 640px) {
+    .optionss_form_grid {
+        grid-template-columns: 1fr;
+    }
+    .summ_stats_cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}

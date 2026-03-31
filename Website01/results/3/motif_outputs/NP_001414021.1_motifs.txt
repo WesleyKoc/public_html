@@ -1,0 +1,104 @@
+########################################
+# Program: patmatmotifs
+# Rundate: Mon 30 Mar 2026 13:35:37
+# Commandline: patmatmotifs
+#    -sequence /localdisk/home/s2238539/public_html/Website/results/3/motifs/NP_001414021.1.fasta
+#    -outfile /localdisk/home/s2238539/public_html/Website/results/3/motif_outputs/NP_001414021.1_motifs.txt
+# Report_format: dbmotif
+# Report_file: /localdisk/home/s2238539/public_html/Website/results/3/motif_outputs/NP_001414021.1_motifs.txt
+########################################
+
+#=======================================
+#
+# Sequence: NP_001414021.1     from: 1   to: 4727
+# HitCount: 8
+#
+# Full: No
+# Prune: Yes
+# Data_file: /usr/share/EMBOSS/data/PROSITE/prosite.lines
+#
+#=======================================
+
+Length = 4
+Start = position 2751 of sequence
+End = position 2754 of sequence
+
+Motif = AMIDATION
+
+TYGPPGGRKMTVFI
+     |  |
+  2751  2754
+
+Length = 4
+Start = position 1109 of sequence
+End = position 1112 of sequence
+
+Motif = AMIDATION
+
+IFVGNQGRKRSEDV
+     |  |
+  1109  1112
+
+Length = 4
+Start = position 158 of sequence
+End = position 161 of sequence
+
+Motif = AMIDATION
+
+FREAREGRRMKIDP
+     |  |
+   158  161
+
+Length = 8
+Start = position 2365 of sequence
+End = position 2372 of sequence
+
+Motif = ATP_GTP_A
+
+GLMTLGPSGSGKTTVITI
+     |      |
+  2365      2372
+
+Length = 8
+Start = position 2083 of sequence
+End = position 2090 of sequence
+
+Motif = ATP_GTP_A
+
+GGAPAGPAGTGKTETTKD
+     |      |
+  2083      2090
+
+Length = 22
+Start = position 3538 of sequence
+End = position 3559 of sequence
+
+Motif = LEUCINE_ZIPPER
+
+KQEGRLAVANAELGKAQALLDEKQAELDKVQA
+     |                    |
+  3538                    3559
+
+Length = 22
+Start = position 3531 of sequence
+End = position 3552 of sequence
+
+Motif = LEUCINE_ZIPPER
+
+PLKANLAKQEGRLAVANAELGKAQALLDEKQA
+     |                    |
+  3531                    3552
+
+Length = 11
+Start = position 2357 of sequence
+End = position 2367 of sequence
+
+Motif = THIOL_PROTEASE_HIS
+
+YETSLVRHGLMTLGPSGSGKT
+     |         |
+  2357         2367
+
+
+#---------------------------------------
+#---------------------------------------

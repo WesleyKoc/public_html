@@ -1,0 +1,25 @@
+########################################
+# Program: patmatmotifs
+# Rundate: Sat 28 Mar 2026 17:39:06
+# Commandline: patmatmotifs
+#    -sequence /localdisk/home/s2238539/public_html/Website/results/17/motif_results/KAI1230272.1.fasta
+#    -outfile /localdisk/home/s2238539/public_html/Website/results/17/motif_results/KAI1230272.1.patmatmotifs
+#    -full
+# Report_format: dbmotif
+# Report_file: /localdisk/home/s2238539/public_html/Website/results/17/motif_results/KAI1230272.1.patmatmotifs
+########################################
+
+#=======================================
+#
+# Sequence: KAI1230272.1     from: 1   to: 370
+# HitCount: 0
+#
+# Full: Yes
+# Prune: Yes
+# Data_file: /usr/share/EMBOSS/data/PROSITE/prosite.lines
+#
+#=======================================
+
+
+#---------------------------------------
+#---------------------------------------

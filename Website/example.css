@@ -1,0 +1,540 @@
+/**
+ * Example page styles
+ * Mostly reused stuff from other css stylesheets
+ */
+
+/**
+ * Intro banner
+ * I origninally went with a deeper shade of blue here to visually distinguish this page
+ * from the analysis pages, which are a bit more utilitarian looking.
+ * But then I decided to stick with my old colour scheme.
+ * Code adapted from: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_grid_layout
+ * Code adapted from: https://css-tricks.com/responsive-typography-type-scales-with-clamp/
+ */
+.eg_intro {
+    background-color: #205493;
+    color: #fff;
+    padding: var(--bigger_space) 0;
+    margin-bottom: 0;
+}
+.eg_intro_inner {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: var(--bigger_space);
+    align-items: center;
+}
+.eg_intro_eyebrow {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.5);
+    margin-bottom: var(--smol_space);
+}
+.eg-intro h1 {
+    color: #fff;
+    font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+    margin-bottom: var(--smol_space);
+    line-height: 1.2;
+}
+.eg-intro h1 em { font-style: italic; color: #7ecdd2; }
+.eg_intro_desc {
+    color: rgba(255,255,255,0.75);
+    font-size: 1rem;
+    max-width: 55ch;
+    margin-bottom: var(--big_space);
+    line-height: 1.7;
+}
+.eg_intro_badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--smol_space);
+}
+.eg_intro-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--tiny_space);
+    padding: 0.25rem 0.75rem;
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 20px;
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.85);
+}
+.unseed_notice {
+    background: rgba(232,160,32,0.18);
+    border: 1px solid rgba(232,160,32,0.45);
+    border-radius: var(--bigger_corner_rounding);
+    padding: var(--big_space);
+    color: #fff;
+    font-size: 0.9rem;
+    max-width: 460px;
+}
+
+/**
+ * call to action strip
+ * A little shout-out section to encourage user action. I made it the accent colour
+ * so it stands out against the hero's blue background.
+ */
+.calltoaction_strip {
+    background: var(--accent_colour);
+    padding: var(--mid_space) 0;
+    margin-bottom: var(--bigger_space);
+}
+.calltoaction_strip_inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: var(--mid_space);
+}
+.calltoaction_strip p {
+    color: #fff;
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin: 0;
+}
+
+/**
+ * Main tab navigation
+ * This was a bit of a headache to get right. I wanted tabs that didn't rely on JS
+ * for the active state, but for styling, I needed to target the active panel.
+ * The active class is toggled by some JS, and these styles just make it look pretty.
+ * I also had to hide the scrollbar for a cleaner look, but it's still scrollable.
+ * Code adapted from: https://css-tricks.com/css-scroll-snap/
+ * Code adapted from: https://css-tricks.com/almanac/properties/s/scrollbar/
+ */
+.main_tab_navi {
+    display: flex;
+    border-bottom: 2px solid var(--border_colour);
+    margin-bottom: var(--bigger_space);
+    gap: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+.main_tab_navi::-webkit-scrollbar { display: none; }
+.main_tab_ {
+    display: flex;
+    align-items: center;
+    gap: var(--smol_space);
+    padding: 0.75rem 1.3rem;
+    font-family: var(--font_body);
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--grey_text_colour);
+    background: none;
+    border: none;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -2px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: color var(--transition), border-color var(--transition);
+}
+.main_tab_button:hover { color: var(--primary_colour); }
+.main_tab_button.active {
+    color: var(--primary_colour);
+    border-bottom-color: var(--primary_colour);
+}
+.main_tab_count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 20px;
+    height: 20px;
+    padding: 0 5px;
+    background: var(--light_primary_colour);
+    color: var(--primary_colour);
+    border-radius: 10px;
+    font-size: 0.72rem;
+    font-weight: 700;
+}
+.main_tab_panel { display: none; }
+.main_tab_panel.active { display: block; }
+
+/**
+ * Stat cards
+ * For the quick summary stats. I toyed with using flexbox here, but grid felt
+ * more predictable for aligning them in rows, especially on different screen sizes.
+ * Code adapted from: https://css-tricks.com/piecing-together-approaches-for-a-css-grid-layout/
+ */
+.stat_cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: var(--mid_space);
+    margin-bottom: var(--bigger_space);
+}
+.stat_card {
+    background: var(--card_background_colour);
+    border: 1px solid var(--border_colour);
+    border-radius: var(--bigger_corner_rounding);
+    padding: var(--mid_space) var(--big_space);
+    text-align: center;
+}
+.stat_value {
+    font-family: var(--font_heading);
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--primary_colour);
+    line-height: 1;
+    margin-bottom: var(--tiny_space);
+}
+.stat_label {
+    font-size: 0.75rem;
+    color: var(--grey_text_colour);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+/**
+ * Plot cards
+ * I spent ages on the placeholder. The dashed border and subtle background
+ * felt like a good way to indicate "image goes here" without being too distracting.
+ * The gradient for the score legend was a bit of a trial -> linear-gradient is finicky.
+ * Code adapted from: https://css-tricks.com/css3-gradients/
+ */
+.plot_card {
+    background: var(--card_background_colour);
+    border: 1px solid var(--border_colour);
+    border-radius: var(--bigger_corner_rounding);
+    padding: var(--big_space);
+    margin-bottom: var(--big_space);
+}
+.plot_card_title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--base_text_colour);
+    margin-bottom: var(--tiny_space);
+}
+.plot_card_subtitle {
+    font-size: 0.78rem;
+    color: var(--grey_text_colour);
+    margin-bottom: var(--mid_space);
+}
+.plot-image {
+    max-width: 100%;
+    border-radius: var(--corner_rounding);
+    display: block;
+}
+.plot-placeholder {
+    width: 100%;
+    min-height: 180px;
+    background: var(--light_primary_colour);
+    border: 1px dashed var(--border_colour);
+    border-radius: var(--corner_rounding);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--smol_space);
+    color: var(--grey_text_colour);
+    font-size: 0.85rem;
+}
+.score_legend {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--smol_space);
+    font-size: 0.78rem;
+    color: var(--grey_text_colour);
+    margin-top: var(--smol_space);
+}
+.score_legend_gradient {
+    width: 100px;
+    height: 8px;
+    border-radius: 4px;
+    background: linear-gradient(to right, #d94f3d, #e8a020, #2e7d4f);
+    border: 1px solid var(--border_colour);
+}
+
+/**
+ * Sequence table
+ * I tried to make the table as readable as possible. The hover state is subtle
+ * but helps a lot when scanning rows. I also added a search box -> the JS for it
+ * is separate, but the styling here should make it fit in.
+ * Code adapted from: https://css-tricks.com/complete-guide-table-element/
+ */
+.sequence_tablewrap {
+    overflow-x: auto;
+    border: 1px solid var(--border_colour);
+    border-radius: var(--bigger_corner_rounding);
+    margin-bottom: var(--big_space);
+}
+.sequence_table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+}
+.sequence_table th {
+    background: var(--light_primary_colour);
+    padding: 0.6rem var(--mid_space);
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.78rem;
+    letter-spacing: 0.04em;
+    color: var(--dark_primary_colour);
+    white-space: nowrap;
+    border-bottom: 1px solid var(--border_colour);
+}
+.sequence_table td {
+    padding: 0.5rem var(--mid_space);
+    border-bottom: 1px solid var(--border_colour);
+    vertical-align: middle;
+}
+.sequence_table tbody tr:last-child td { border-bottom: none; }
+.sequence_table tbody tr:hover { background: #f5fafb; }
+.accession_link {
+    font-family: var(--font_code);
+    font-size: 0.82rem;
+    color: var(--primary_colour);
+}
+.order_badge {
+    display: inline-block;
+    padding: 0.1rem 0.5rem;
+    background: var(--light_primary_colour);
+    color: var(--dark_primary_colour);
+    border-radius: 20px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+.table_toolbar {
+    display: flex;
+    align-items: center;
+    gap: var(--mid_space);
+    margin-bottom: var(--mid_space);
+    flex-wrap: wrap;
+}
+.table_search {
+    padding: 0.4rem 0.75rem;
+    border: 1px solid var(--border_colour);
+    border-radius: var(--corner_rounding);
+    font-size: 0.875rem;
+    font-family: var(--font_body);
+    width: 240px;
+}
+.table_search:focus {
+    outline: none;
+    border-color: var(--primary_colour);
+}
+
+/**
+ * Motif table
+ * Similar to the sequence table, but for motif data. I made the frequency bar
+ * visual -> a lot of trial and error to get the width and positioning just right.
+ * The barfill width is set inline via the HTML, but this is the container for it.
+ * Code adapted from: https://css-tricks.com/snippets/css/a-guide-to-flexbox/
+ */
+.motif_table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+}
+.motif_table th {
+    background: var(--light_primary_colour);
+    padding: 0.55rem var(--mid_space);
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.78rem;
+    letter-spacing: 0.04em;
+    color: var(--dark_primary_colour);
+    border-bottom: 1px solid var(--border_colour);
+}
+.motif_table td {
+    padding: 0.5rem var(--mid_space);
+    border-bottom: 1px solid var(--border_colour);
+    vertical-align: middle;
+}
+.motif_table tbody tr:last-child td { border-bottom: none; }
+.motif_table tbody tr:hover { background: #f5fafb; }
+.linkto_motif_id {
+    font-family: var(--font_code);
+    font-size: 0.82rem;
+    color: var(--primary_colour);
+    font-weight: 600;
+}
+.frequency_barwrap {
+    display: flex;
+    align-items: center;
+    gap: var(--smol_space);
+}
+.frequency_bartrack {
+    flex: 1;
+    height: 8px;
+    background: var(--border_colour);
+    border-radius: 4px;
+    overflow: hidden;
+    min-width: 60px;
+}
+.frequency_barfill {
+    height: 100%;
+    background: var(--primary_colour);
+    border-radius: 4px;
+}
+.frequency-label {
+    font-size: 0.8rem;
+    color: var(--grey_text_colour);
+    white-space: nowrap;
+}
+
+/**
+ * External link cards
+ * For linking out to other databases. I used a grid here for a nice,
+ * flexible layout that wraps neatly on smaller screens.
+ */
+.grid_of_links {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--mid_space);
+    margin-bottom: var(--big_space);
+}
+.link_card {
+    background: var(--card_background_colour);
+    border: 1px solid var(--border_colour);
+    border-radius: var(--bigger_corner_rounding);
+    padding: var(--mid_space) var(--big_space);
+    display: flex;
+    flex-direction: column;
+    gap: var(--tiny_space);
+}
+.link_card_database {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--primary_colour);
+}
+.link_card_id {
+    font-family: var(--font_code);
+    font-size: 0.85rem;
+    color: var(--base_text_colour);
+    font-weight: 600;
+}
+.link_card_organism {
+    font-size: 0.8rem;
+    font-style: italic;
+    color: var(--grey_text_colour);
+}
+.link_card_annotation {
+    font-size: 0.8rem;
+    color: var(--grey_text_colour);
+    line-height: 1.5;
+    margin: 0;
+}
+
+/**
+ * Info callout
+ * A friendly box to show tips or additional context. The left border is a nice,
+ * non-intrusive way to highlight it.
+ */
+.informant_callout {
+    background: var(--light_primary_colour);
+    border-left: 3px solid var(--primary_colour);
+    border-radius: 0 var(--corner_rounding) var(--corner_rounding) 0;
+    padding: var(--mid_space) var(--big_space);
+    font-size: 0.875rem;
+    color: var(--base_text_colour);
+    margin-bottom: var(--big_space);
+}
+.informant_callout p { margin-bottom: var(--tiny_space); }
+.informant_callout p:last-child { margin-bottom: 0; }
+
+/**
+ * Download buttons
+ * These are small and unobtrusive. I debated making them bigger, but for secondary
+ * actions like downloading, a smaller button felt more appropriate.
+ */
+.download_row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--smol_space);
+    margin-top: var(--mid_space);
+}
+.download_button {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--tiny_space);
+    padding: 0.35rem 0.9rem;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--primary_colour);
+    background: var(--light_primary_colour);
+    border: 1px solid var(--border_colour);
+    border-radius: var(--corner_rounding);
+    text-decoration: none;
+    transition: background var(--transition), border-color var(--transition);
+}
+.download_button:hover {
+    background: #d0e8ea;
+    border-color: var(--primary_colour);
+    text-decoration: none;
+    color: var(--dark_primary_colour);
+}
+
+/**
+ * Nested extras sub-tabs
+ * This was a late addition -> I needed a way to switch between different
+ * "extra" content panels. So I just repurposed the main tab logic for a
+ * sub-navigation section. Works well enough.
+ * Code adapted from: https://css-tricks.com/css-scroll-snap/
+ */
+.extras_sub_tabs {
+    display: flex;
+    gap: 0;
+    border-bottom: 1px solid var(--border_colour);
+    margin-bottom: var(--big_space);
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+.extras_sub_tabs::-webkit-scrollbar { display: none; }
+.extras_sub_tab_button {
+    padding: 0.5rem 1rem;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--grey_text_colour);
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: color var(--transition), border-color var(--transition);
+}
+.extras_sub_tab_button:hover { color: var(--primary_colour); }
+.extras_sub_tab_button:hover { color: var(--primary_colour); }
+.extras_sub_tab_button.active {
+    color: var(--primary_colour);
+    border-bottom-color: var(--primary_colour);
+}
+.extras_panel { display: none; }
+.extras_panel.active { display: block; }
+
+/**
+ * Unseeded empty state
+ * For when the analysis isn't seeded yet -> I wanted a clear visual cue,
+ * but not a scary error message. A big icon and some centred text felt friendly.
+ */
+.unseeded_state {
+    text-align: center;
+    padding: var(--giant_space) var(--big_space);
+}
+.unseeded_state i {
+    font-size: 3rem;
+    color: var(--border_colour);
+    margin-bottom: var(--big_space);
+    display: block;
+}
+
+/**
+ * Responsive adjustments
+ * I tweaked these a bunch of times to make sure the layout doesn't break on
+ * smaller screens. The main thing was making the hero banner's two-column
+ * layout stack on tablets. But I also took inspiration from other validated pages
+ * Code adapted from: https://css-tricks.com/a-complete-guide-to-css-media-queries/
+ */
+@media (max-width: 768px) {
+    .eg_intro_inner { grid-template-columns: 1fr; }
+    .calltoaction_strip-inner { flex-direction: column; align-items: flex-start; }
+}
+@media (max-width: 480px) {
+    .stat_cards { grid-template-columns: repeat(2, 1fr); }
+    .grid_of_links { grid-template-columns: 1fr; }
+}

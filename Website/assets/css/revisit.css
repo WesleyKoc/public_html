@@ -1,0 +1,541 @@
+/**
+ * Token input section
+ * Wrapped in a card to match the rest of the UI. Max-width took a few tries; 560px felt right.
+ */
+.token_input_section {
+    max-width: 560px;
+    margin: 0 auto var(--bigger_space);
+}
+.token_input_card {
+    background: var(--card_background_colour);
+    border: 1px solid var(--border_colour);
+    border-radius: var(--bigger_corner_rounding);
+    padding: var(--bigger_space);
+}
+.token_input_card h2 {
+    font-size: 1.1rem;
+    margin-bottom: var(--smol_space);
+}
+.token_input_row {
+    display: flex;
+    gap: var(--smol_space);
+    margin-top: var(--mid_space);
+}
+.token_input {
+    flex: 1;
+    padding: 0.55rem 0.75rem;
+    border: 1px solid var(--border_colour);
+    border-radius: var(--corner_rounding);
+    font-family: var(--font_code);
+    font-size: 0.85rem;
+    color: var(--base_text_colour);
+    background: var(--card_background_colour);
+    transition: border-color var(--transition), box-shadow var(--transition);
+}
+.token_input:focus {
+    outline: none;
+    border-color: var(--primary_colour);
+    box-shadow: 0 0 0 3px rgba(26,107,114,0.12);
+}
+
+/**
+ * Token reveal and copy helpers
+ * Small widgets for seeing the token and copying it. The copy button felt necessary after a few rounds of using it myself.
+ */
+.token-reveal_helper_row {
+    display: flex;
+    align-items: center;
+    gap: var(--mid_space);
+    margin-top: var(--smol_space);
+    flex-wrap: wrap;
+}
+.token_hint {
+    font-size: 0.78rem;
+    color: var(--grey_text_colour);
+}
+.copy_button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 0.78rem;
+    color: var(--primary_colour);
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    transition: color var(--transition);
+}
+.copy_button:hover { color: var(--dark_primary_colour); }
+
+/**
+ * Error and info banners
+ * Toggles with a visible class. Error background went through a few shades before landing on something less aggressive.
+ */
+.message_banner {
+    display: none;
+    padding: var(--mid_space) var(--big_space);
+    border-radius: var(--bigger_corner_rounding);
+    font-size: 0.875rem;
+    margin-bottom: var(--big_space);
+    gap: var(--mid_space);
+    align-items: flex-start;
+}
+.message_banner.visible { display: flex; }
+.message_banner.error {
+    background: #fdf0ee;
+    border: 1px solid #e8b4ae;
+    color: var(--danger_colour);
+}
+.message_banner.info {
+    background: var(--light_primary_colour);
+    border: 1px solid var(--border_colour);
+    color: var(--base_text_colour);
+}
+
+/**
+ * Loading state
+ * Spinner animation is a classic. Had to tweak the border colours a couple times to get the contrast right.
+ */
+.still_loading_stuff {
+    display: none;
+    align-items: center;
+    gap: var(--mid_space);
+    padding: var(--big_space) 0;
+    color: var(--grey_text_colour);
+    font-size: 0.875rem;
+}
+.still_loading_stuff.visible { display: flex; }
+.spinner {
+    width: 18px;
+    height: 18px;
+    border: 2px solid var(--border_colour);
+    border-top-color: var(--primary_colour);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    flex-shrink: 0;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/**
+ * Jobs section
+ * Hidden by default, becomes visible once we've got data to show.
+ */
+.jobs_section { display: none; }
+.jobs_section.visible { display: block; }
+
+/**
+ * Toolbar row above jobs grid
+ * Keeps the filter controls and job count tidy. Flex-wrap saves me from mobile layout headaches.
+ * Code adapted from: https://css-tricks.com/snippets/css/a-guide-to-flexbox/
+ */
+.jobs_toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: var(--mid_space);
+    margin-bottom: var(--big_space);
+}
+.how_many_jobs {
+    font-size: 0.875rem;
+    color: var(--grey_text_colour);
+}
+.how_many_jobs strong { color: var(--base_text_colour); }
+
+/**
+ * Filter and sort controls
+ * Simple inputs, nothing fancy. The gap makes sure they don't clump together awkwardly.
+ */
+.jobs_controls {
+    display: flex;
+    gap: var(--smol_space);
+    flex-wrap: wrap;
+}
+.controls_input {
+    padding: 0.38rem 0.65rem;
+    border: 1px solid var(--border_colour);
+    border-radius: var(--corner_rounding);
+    font-size: 0.82rem;
+    font-family: var(--font_body);
+    color: var(--base_text_colour);
+    background: var(--card_background_colour);
+    transition: border-color var(--transition);
+}
+.controls_input:focus {
+    outline: none;
+    border-color: var(--primary_colour);
+}
+
+/**
+ * Job cards grid
+ * Auto-fill with a sensible min width. I fiddled with 300px vs 320px for a while -> 320px won.
+ * Code adapted from: https://css-tricks.com/snippets/css/complete-guide-grid/
+ */
+.job_cards_grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: var(--big_space);
+}
+
+/**
+ * Individual job card
+ * Hover effect adds a subtle shadow and border colour change. Makes it feel clickable even if it's not a link.
+ * Code adapted from: https://css-tricks.com/almanac/properties/b/box-shadow/
+ */
+.job_card {
+    background: var(--card_background_colour);
+    border: 1px solid var(--border_colour);
+    border-radius: var(--bigger_corner_rounding);
+    padding: var(--big_space);
+    display: flex;
+    flex-direction: column;
+    gap: var(--smol_space);
+    transition: box-shadow var(--transition), border-color var(--transition);
+    position: relative;
+}
+.job_card:hover {
+    box-shadow: var(--shadow_mid);
+    border-color: var(--primary_colour);
+}
+
+/**
+ * Status badge
+ * Uppercase, small, colour-coded. Each status has its own vibe -> done is green, failed is red, etc.
+ * Code adapted from: https://css-tricks.com/mind-css-utility-classes/
+ */
+.status_badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 0.15rem 0.55rem;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+.status_done    { background: #d4edda; color: var(--success_colour); }
+.status_running { background: #fff3cd; color: #856404; }
+.status_failed  { background: #f8d7da; color: #721c24; }
+.status_queued  { background: var(--border_colour); color: var(--colour-text->
+
+/**
+ * Card header row
+ * Title on the left, badge on the right. Keeps things aligned and readable.
+ * Code adapted from: https://css-tricks.com/preventing-a-grid-blowout/
+ */
+.card_header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--smol_space);
+}
+.card_title {
+    font-family: var(--font_heading);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--base_text_colour);
+    line-height: 1.3;
+    flex: 1;
+    min-width: 0;
+    word-break: break-word;
+}
+.card_taxonomy {
+    font-style: italic;
+    color: var(--grey_text_colour);
+    font-size: 0.875rem;
+}
+
+/**
+ * Inline label editor
+ * This one took a few iterations. The edit button only appears on hover, but that felt hidden on mobile,
+ * so I left it always visible at a low opacity. Compromise.
+ * Code adapted from: https://css-tricks.com/editable-content-via-css/
+ */
+.label_display {
+    display: flex;
+    align-items: center;
+    gap: var(--tiny_space);
+    font-size: 0.78rem;
+    color: var(--grey_text_colour);
+    min-height: 22px;
+}
+.label_text {
+    font-style: italic;
+    flex: 1;
+}
+.edit_button_label {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--primary_colour);
+    font-size: 0.72rem;
+    padding: 0;
+    opacity: 0.6;
+    transition: opacity var(--transition);
+    flex-shrink: 0;
+}
+.edit_button_label:hover { opacity: 1; }
+.input_row_label {
+    display: none;
+    gap: var(--tiny_space);
+}
+.input_row_label.editing { display: flex; }
+.input_label {
+    flex: 1;
+    padding: 0.25rem 0.5rem;
+    border: 1px solid var(--border_colour);
+    border-radius: var(--corner_rounding);
+    font-size: 0.78rem;
+    font-family: var(--font_body);
+}
+.input_label:focus {
+    outline: none;
+    border-color: var(--primary_colour);
+}
+.save_button_label {
+    padding: 0.2rem 0.55rem;
+    background: var(--primary_colour);
+    color: #fff;
+    border: none;
+    border-radius: var(--corner_rounding);
+    font-size: 0.72rem;
+    cursor: pointer;
+}
+.cancel_button_label {
+    padding: 0.2rem 0.5rem;
+    background: none;
+    border: 1px solid var(--border_colour);
+    border-radius: var(--corner_rounding);
+    font-size: 0.72rem;
+    cursor: pointer;
+    color: var(--grey_text_colour);
+}
+
+/**
+ * Card metadata row
+ * Timestamps, IDs, that sort of thing. Flex-wrap saves me when the container gets narrow.
+ */
+.card_metadata {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--tiny_space) var(--mid_space);
+    font-size: 0.78rem;
+    color: var(--grey_text_colour);
+}
+.card_metadata-item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/**
+ * Mini stat row
+ * Three columns, shows key metrics at a glance. Grid makes it easy to keep them evenly spaced.
+ * Code adapted from: https://css-tricks.com/snippets/css/complete-guide-grid/
+ */
+.mini_stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--smol_space);
+    padding: var(--smol_space) 0;
+    border-top: 1px solid var(--border_colour);
+    border-bottom: 1px solid var(--border_colour);
+}
+.mini_stat {
+    text-align: center;
+}
+.mini_stat_value {
+    font-family: var(--font_heading);
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--primary_colour);
+    line-height: 1;
+}
+.mini_stat_label {
+    font-size: 0.68rem;
+    color: var(--grey_text_colour);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-top: 2px;
+}
+
+/**
+ * Pipeline progress dots
+ * Visual indicator for multi-step pipelines. The partial state took a while to figure out —> I ended up using the accent colour.
+ * Code adapted from: https://css-tricks.com/building-progress-indicators/
+ */
+.pipeline_dots {
+    display: flex;
+    align-items: center;
+    gap: var(--tiny_space);
+    font-size: 0.72rem;
+    color: var(--grey_text_colour);
+}
+.pipeline_dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 2px solid var(--border_colour);
+    background: var(--border_colour);
+    transition: background var(--transition), border-color var(--transition);
+}
+.pipeline_dot.complete {
+    background: var(--success_colour);
+    border-color: var(--success_colour);
+}
+.pipeline_dot.partial {
+    background: var(--accent_colour);
+    border-color: var(--accent_colour);
+}
+.pipeline_separate {
+    height: 1px;
+    width: 16px;
+    background: var(--border_colour);
+}
+
+/**
+ * Card action buttons
+ * Primary button for the main action, ghost buttons for secondary stuff. Danger button for deletions.
+ * Code adapted from: https://css-tricks.com/perfect-button/
+ */
+.card_actions {
+    display: flex;
+    gap: var(--smol_space);
+    flex-wrap: wrap;
+    margin-top: var(--tiny_space);
+}
+.primary_button_card {
+    flex: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--tiny_space);
+    padding: 0.45rem var(--mid_space);
+    background: var(--primary_colour);
+    color: #fff;
+    border: none;
+    border-radius: var(--corner_rounding);
+    font-family: var(--font_body);
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background var(--transition);
+}
+.primary_button_card:hover {
+    background: var(--dark_primary_colour);
+    color: #fff;
+    text-decoration: none;
+}
+.ghosty_button_card {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--tiny_space);
+    padding: 0.4rem 0.65rem;
+    background: none;
+    color: var(--grey_text_colour);
+    border: 1px solid var(--border_colour);
+    border-radius: var(--corner_rounding);
+    font-family: var(--font_body);
+    font-size: 0.78rem;
+    cursor: pointer;
+    transition: color var(--transition), border-color var(--transition), background var(--transition);
+}
+.ghosty_button_card:hover {
+    color: var(--base_text_colour);
+    border-color: var(--grey_text_colour);
+    background: var(--background_colour);
+}
+.danger_button_card {
+    color: var(--danger_colour);
+    border-color: #e8b4ae;
+}
+.danger_button_card:hover {
+    background: #fdf0ee;
+    border-color: var(--danger_colour);
+    color: var(--danger_colour);
+}
+
+/**
+ * Delete confirmation overlay
+ * Pops up over the card when you click delete. The overlay approach felt cleaner than a separate modal.
+ * Code adapted from: https://developer.mozilla.org/en-US/docs/Web/CSS/position
+ */
+.are_you_sure_delete {
+    display: none;
+    position: absolute;
+    inset: 0;
+    background: rgba(255,255,255,0.95);
+    border-radius: var(--bigger_corner_rounding);
+    border: 2px solid #e8b4ae;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--mid_space);
+    padding: var(--big_space);
+    text-align: center;
+    z-index: 10;
+}
+.are_you_sure_delete.visible { display: flex; }
+.are_you_sure_delete p {
+    font-size: 0.875rem;
+    color: var(--base_text_colour);
+    max-width: 28ch;
+}
+.are_you_sure_delete_button {
+    display: flex;
+    gap: var(--smol_space);
+}
+
+/**
+ * Empty state
+ * Shown when there are no jobs. Keeps things friendly instead of just a blank grid.
+ * Code adapted from: https://css-tricks.com/empty-states-content-previews-fallbacks/
+ */
+.empty_state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: var(--giant_space) var(--big_space);
+    color: var(--grey_text_colour);
+}
+.empty_state i {
+    font-size: 2.5rem;
+    margin-bottom: var(--mid_space);
+    color: var(--border_colour);
+    display: block;
+}
+.empty_state h3 {
+    margin-bottom: var(--smol_space);
+    color: var(--grey_text_colour);
+}
+
+/**
+ * Session token info box
+ * Just a little hint for folks who forget they already set a token. Warm yellow feels friendly without screaming.
+ */
+.session_token_info_box {
+    background: #fef5e7;
+    border: 1px solid #f0d8a8;
+    border-radius: var(--bigger_corner_rounding);
+    padding: var(--mid_space) var(--big_space);
+    font-size: 0.82rem;
+    color: #7a5010;
+    margin-top: var(--big_space);
+    display: flex;
+    gap: var(--mid_space);
+    align-items: flex-start;
+}
+.session_token_info_box i { flex-shrink: 0; margin-top: 2px; }
+
+/**
+ * Responsive tweaks
+ * Things get stacked on smaller screens. The token input row flips to column because horizontal just doesn't work on phones.
+ * Code adapted from: https://css-tricks.com/snippets/css/a-guide-to-flexbox/
+ */
+@media (max-width: 640px) {
+    .job_cards_grid { grid-template-columns: 1fr; }
+    .token_input_row { flex-direction: column; }
+    .jobs_controls { flex-direction: column; }
+}

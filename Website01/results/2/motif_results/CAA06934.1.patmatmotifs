@@ -1,0 +1,35 @@
+########################################
+# Program: patmatmotifs
+# Rundate: Sun 29 Mar 2026 18:37:22
+# Commandline: patmatmotifs
+#    -sequence /localdisk/home/s2238539/public_html/Website/results/2/motif_results/CAA06934.1.fasta
+#    -outfile /localdisk/home/s2238539/public_html/Website/results/2/motif_results/CAA06934.1.patmatmotifs
+#    -full
+# Report_format: dbmotif
+# Report_file: /localdisk/home/s2238539/public_html/Website/results/2/motif_results/CAA06934.1.patmatmotifs
+########################################
+
+#=======================================
+#
+# Sequence: CAA06934.1     from: 1   to: 328
+# HitCount: 1
+#
+# Full: Yes
+# Prune: Yes
+# Data_file: /usr/share/EMBOSS/data/PROSITE/prosite.lines
+#
+#=======================================
+
+Length = 4
+Start = position 46 of sequence
+End = position 49 of sequence
+
+Motif = AMIDATION
+
+LLQQHTGRRTCAIG
+     |  |
+    46  49
+
+
+#---------------------------------------
+#---------------------------------------

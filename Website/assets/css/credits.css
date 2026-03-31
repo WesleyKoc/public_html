@@ -1,0 +1,257 @@
+/** 
+ * Credits page specific styles
+ * 
+ * This stylesheet handles the layout for the credits/acknowledgements page. 
+ * The main challenge was getting the side table of contents to stick just 
+ * right without overlapping the header or looking clunky.
+ * Decided to stick with 'calc(60px + var(--big_space))' just like everything
+ * which accounts for the header height plus a comfortable margin.
+ * Code adapted from: https://css-tricks.com/snippets/css/complete-guide-grid/
+ */
+
+.streetcred_page_layout {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: var(--bigger_space);
+    align-items: start;
+    padding-top: var(--bigger_space);
+    padding-bottom: var(--giant_space);
+}
+
+/** 
+ * Sticky table of contents sidebar
+ * 
+ * I wanted the section index to stay visible while scrolling through the long 
+ * list of tools and libraries -> the sticky positioning felt right here. 
+ * Initially had it at 'top: 80px' but that got too close to the header on 
+ * smaller screens -> adjusted to the current calc value for a better breathing 
+ * room. The card background and border help it stand out from the main content.
+ * Code adapted from: https://css-tricks.com/position-sticky-2/
+ * Code adapted from: https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Transitions/Using
+ */
+.streetcred_content_table {
+    position: sticky;
+    top: calc(60px + var(--big_space));
+    background: var(--card_background_colour);
+    border: 1px solid var(--border_colour);
+    border-radius: var(--bigger_corner_rounding);
+    padding: var(--big_space);
+}
+.title_streetcred_content_table {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--grey_text_colour);
+    margin-bottom: var(--mid_space);
+}
+.list_streetcred_content_table {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+.list_streetcred_content_table a {
+    display: flex;
+    align-items: center;
+    gap: var(--smol_space);
+    padding: 0.3rem 0.5rem;
+    font-size: 0.8rem;
+    color: var(--grey_text_colour);
+    border-radius: var(--corner_rounding);
+    text-decoration: none;
+    transition: background var(--transition), color var(--transition);
+}
+.list_streetcred_content_table a:hover,
+.list_streetcred_content_table a.active {
+    background: var(--light_primary_colour);
+    color: var(--primary_colour);
+}
+.list_streetcred_content_table a i {
+    width: 14px;
+    text-align: center;
+    font-size: 0.75rem;
+    flex-shrink: 0;
+}
+
+/** 
+ * Wrapper for each major section on the credits page
+ * 
+ * The scroll-margin-top is crucial here -> it ensures that when clicking a 
+ * link from the table of contents, the section title doesn't get hidden 
+ * behind the sticky header. I had to tweak this value a few times -> started 
+ * with 60px, then 70px, finally settled on 80px for a clean reveal.
+ * Code adapted from: https://css-tricks.com/almanac/properties/s/scroll-margin/
+ */
+.streetcred_section {
+    margin-bottom: var(--giant_space);
+    scroll-margin-top: 80px;
+}
+.streetcred_section:last-child {
+    margin-bottom: 0;
+}
+
+/** 
+ * Eyebrow text for the credit sections
+ * 
+ * I used this to add a subtle visual hierarchy -> the uppercase, letter-spaced 
+ * text creates a nice separation without being too loud. The colour links it 
+ * to the primary brand accent.
+ * Code adapted from: https://css-tricks.com/snippets/css/a-guide-to-flexbox/
+ */
+.streetcred_eyebrow {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--primary_colour);
+    margin-bottom: var(--tiny_space);
+}
+
+.streetcred_section h2 {
+    font-size: 1.3rem;
+    margin-bottom: var(--big_space);
+    padding-bottom: var(--smol_space);
+    border-bottom: 1px solid var(--border_colour);
+    display: flex;
+    align-items: center;
+    gap: var(--smol_space);
+}
+.streetcred_section h2 i {
+    color: var(--primary_colour);
+    font-size: 1rem;
+}
+
+/** 
+ * The main credits table
+ * 
+ * I originally had a standard unstyled table, but it looked too plain against 
+ * the rest of the site -> added the border wrapper, hover states, and adjusted 
+ * padding for better readability. The overflow-x: auto was a must -> some 
+ * tool names and licences are longer than I anticipated. Learned that the hard 
+ * way when testing on a laptop.
+ */
+.streetcred_tablewrap {
+    overflow-x: auto;
+    border: 1px solid var(--border_colour);
+    border-radius: var(--bigger_corner_rounding);
+}
+.streetcred_table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+}
+.streetcred_table th {
+    background: var(--light_primary_colour);
+    padding: 0.55rem var(--mid_space);
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.78rem;
+    letter-spacing: 0.04em;
+    color: var(--dark_primary_colour);
+    border-bottom: 1px solid var(--border_colour);
+    white-space: nowrap;
+}
+.streetcred_table td {
+    padding: 0.6rem var(--mid_space);
+    border-bottom: 1px solid var(--border_colour);
+    vertical-align: top;
+    line-height: 1.55;
+}
+.streetcred_table tbody tr:last-child td {
+    border-bottom: none;
+}
+.streetcred_table tbody tr:hover {
+    background: #f5fafb;
+}
+
+/** 
+ * Tool name link style
+ * 
+ * I wanted these to stand out as the main interactive element -> the primary 
+ * colour felt right, and the hover underline gives a clear affordance. 
+ * Tried using a bold weight at first but it felt too aggressive.
+ */
+.tool_name {
+    font-weight: 600;
+    color: var(--primary_colour);
+    text-decoration: none;
+}
+.tool_name:hover {
+    text-decoration: underline;
+    color: var(--dark_primary_colour);
+}
+
+/** 
+ * Version badge style
+ * 
+ * This is a subtle way to show version numbers without distracting from the 
+ * main tool name. I used the monospace font for a technical feel -> gives 
+ * that code-ish vibe. The background matches the border colour for a low 
+ * contrast, "just there" appearance.
+ * Code adapted from: https://developer.mozilla.org/en-US/docs/Web/CSS/display
+ */
+.version_badge {
+    display: inline-block;
+    padding: 0.1rem 0.45rem;
+    background: var(--border_colour);
+    color: var(--grey_text_colour);
+    border-radius: 20px;
+    font-size: 0.72rem;
+    font-family: var(--font_code);
+    white-space: nowrap;
+}
+
+/** 
+ * Licence badge style
+ * 
+ * I wanted to give open-source licences a friendly, recognisable look -> 
+ * the green colour felt appropriate. Had to mess with the border colour for 
+ * a while -> too dark looked harsh, too light disappeared. Landed on a 
+ * light green border that complements the background.
+ */
+.licence_badge {
+    display: inline-block;
+    padding: 0.1rem 0.45rem;
+    background: #eef9f0;
+    color: #2a7a40;
+    border: 1px solid #b8e0c5;
+    border-radius: 20px;
+    font-size: 0.72rem;
+    white-space: nowrap;
+}
+
+/** 
+ * Responsive tweaks for smaller screens
+ * 
+ * This was a journey -> on tablets, the two-column layout becomes cramped, 
+ * so I switched to a single column. The table of contents links now become a 
+ * horizontal scrollable row, which I think works better for mobile browsing. 
+ * On very small screens, I had to make a tough call -> hiding the version 
+ * column. It felt like the least critical info for a quick glance on a phone.
+ */
+@media (max-width: 860px) {
+    .streetcred_page_layout {
+        grid-template-columns: 1fr;
+    }
+    .title_streetcred_content_table {
+        position: static;
+        margin-bottom: var(--big_space);
+    }
+    .list_streetcred_content_table {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+}
+@media (max-width: 560px) {
+    /** 
+     * I debated a lot on which column to hide -> the version info, while useful, 
+     * is the most technical piece and can be looked up if needed. This felt 
+     * like a reasonable trade-off for usability on cramped screens.
+     * Code adapted from: https://developer.mozilla.org/en-US/docs/Web/CSS/:nth-child
+     */
+    .streetcred_table th:nth-child(3),
+    .streetcred_table td:nth-child(3) {
+        display: none;
+    }
+}

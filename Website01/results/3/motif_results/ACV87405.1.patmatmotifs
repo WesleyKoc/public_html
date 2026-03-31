@@ -1,0 +1,45 @@
+########################################
+# Program: patmatmotifs
+# Rundate: Mon 30 Mar 2026 13:05:19
+# Commandline: patmatmotifs
+#    -sequence /localdisk/home/s2238539/public_html/Website/results/3/motif_results/ACV87405.1.fasta
+#    -outfile /localdisk/home/s2238539/public_html/Website/results/3/motif_results/ACV87405.1.patmatmotifs
+#    -full
+# Report_format: dbmotif
+# Report_file: /localdisk/home/s2238539/public_html/Website/results/3/motif_results/ACV87405.1.patmatmotifs
+########################################
+
+#=======================================
+#
+# Sequence: ACV87405.1     from: 1   to: 224
+# HitCount: 2
+#
+# Full: Yes
+# Prune: Yes
+# Data_file: /usr/share/EMBOSS/data/PROSITE/prosite.lines
+#
+#=======================================
+
+Length = 30
+Start = position 171 of sequence
+End = position 200 of sequence
+
+Motif = HMA_1
+
+ETVINIDGMTCNSCVQSIEGVISKKAGVKSIQVSLANGKG
+     |                            |
+   171                            200
+
+Length = 30
+Start = position 71 of sequence
+End = position 100 of sequence
+
+Motif = HMA_1
+
+TVIFTIDGMHCKSCVSNIESALSTLQDISSVVVSLENKSA
+     |                            |
+    71                            100
+
+
+#---------------------------------------
+#---------------------------------------

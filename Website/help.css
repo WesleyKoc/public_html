@@ -1,0 +1,261 @@
+/**
+ * Help page styles: sticky content table and FAQ accordion layout
+ * Grid felt more predictable than flex for the two column setup, especially with sticky positioning.
+ * I tweaked the column widths a few times until 220px gave the content table enough room without crowding.
+ * Code adapted from: https://css-tricks.com/snippets/css/complete-guide-grid/
+ */
+.help_page_layout {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: var(--bigger_space);
+    align-items: start;
+    padding-top: var(--bigger_space);
+    padding-bottom: var(--giant_space);
+}
+
+/**
+ * Sticky content table card
+ * The top offset took some fiddling -> header is about 60px tall, plus some breathing room.
+ * I landed on 60px + big_space after going back and forth a few times.
+ * Code adapted from: https://css-tricks.com/position-sticky-2/
+ * Code adapted from: https://css-tricks.com/snippets/css/a-guide-to-flexbox/
+ */
+.content_table {
+    position: sticky;
+    top: calc(60px + var(--big_space));
+    background: var(--card_background_colour);
+    border: 1px solid var(--border_colour);
+    border-radius: var(--bigger_corner_rounding);
+    padding: var(--big_space);
+}
+.content_tabletitle {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--grey_text_colour);
+    margin-bottom: var(--mid_space);
+}
+.content_table_list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+.content_table_list a {
+    display: block;
+    padding: 0.3rem 0.5rem;
+    font-size: 0.82rem;
+    color: var(--grey_text_colour);
+    border-radius: var(--corner_rounding);
+    transition: background var(--transition), color;
+    text-decoration: none;
+    line-height: 1.4;
+}
+.content_table_list a:hover,
+.content_table_list a.active {
+    background: var(--light_primary_colour);
+    color: var(--primary_colour);
+}
+.content_table_divider {
+    height: 1px;
+    background: var(--border_colour);
+    margin: var(--smol_space) 0;
+}
+
+/**
+ * Main content column
+ * min-width: 0 prevents text from forcing the grid column wider -> learned this from
+ * fighting with grid on a previous project.
+ * Code adapted from: https://css-tricks.com/preventing-a-grid-blowout/
+ */
+.help_content {
+    min-width: 0;
+}
+
+/**
+ * Individual help sections
+ * scroll-margin-top ensures section titles don't hide behind the sticky header.
+ * Took a few tries to get the 80px value right.
+ * Code adapted from: https://css-tricks.com/almanac/properties/s/scroll-margin/
+ * Code adapted from: https://css-tricks.com/optimizing-for-readability/ and https://developer.mozilla.org/en-US/docs/Learn/CSS/Styling_text
+ */
+.help_section {
+    margin-bottom: var(--giant_space);
+    scroll-margin-top: 80px;
+}
+.help_section:last-child {
+    margin-bottom: 0;
+}
+.help_section_eyebrow {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--primary_colour);
+    margin-bottom: var(--tiny_space);
+}
+.help_section h2 {
+    font-size: 1.45rem;
+    margin-bottom: var(--mid_space);
+    padding-bottom: var(--smol_space);
+    border-bottom: 1px solid var(--border_colour);
+}
+.help_section h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-top: var(--big_space);
+    margin-bottom: var(--smol_space);
+    color: var(--base_text_colour);
+}
+.help_section p {
+    color: var(--base_text_colour);
+    line-height: 1.8;
+    max-width: 72ch;
+    margin-bottom: var(--mid_space);
+}
+.help_section p:last-child {
+    margin-bottom: 0;
+}
+
+/**
+ * Highlight for biological terms
+ * Italic plus darker primary colour signals importance without screaming.
+ */
+.key_bio_term {
+    font-style: italic;
+    color: var(--dark_primary_colour);
+}
+
+/**
+ * Concept cards grid
+ * auto-fit with minmax means the grid adapts without extra media queries.
+ * Code adapted from: https://css-tricks.com/piecing-together-approaches-for-a-css-grid-layout/
+ */
+.concept_grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: var(--mid_space);
+    margin: var(--big_space) 0;
+}
+.concept_card {
+    background: var(--card_background_colour);
+    border: 1px solid var(--border_colour);
+    border-radius: var(--bigger_corner_rounding);
+    padding: var(--big_space);
+}
+.concept_card h4 {
+    font-size: 0.9rem;
+    font-weight: 700;
+    margin-bottom: var(--smol_space);
+    display: flex;
+    align-items: center;
+    gap: var(--smol_space);
+}
+.concept_card h4 i {
+    color: var(--primary_colour);
+    width: 16px;
+    text-align: center;
+}
+.concept_card p {
+    font-size: 0.875rem;
+    color: var(--grey_text_colour);
+    line-height: 1.65;
+    max-width: none;
+}
+
+/**
+ * FAQ accordion
+ * I tried animating the height at first but it got messy -> kept it simple with toggle.
+ * Code adapted from: https://css-tricks.com/css-only-accessible-accordion/
+ * Code adapted from: https://css-tricks.com/almanac/properties/o/overflow/
+ */
+.faq_list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--smol_space);
+    margin-top: var(--big_space);
+}
+.faq_item {
+    background: var(--card_background_colour);
+    border: 1px solid var(--border_colour);
+    border-radius: var(--bigger_corner_rounding);
+    overflow: hidden;
+}
+.faq_question {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--mid_space);
+    padding: var(--mid_space) var(--big_space);
+    background: none;
+    border: none;
+    font-family: var(--font_body);
+    font-size: 0.92rem;
+    font-weight: 600;
+    color: var(--base_text_colour);
+    cursor: pointer;
+    text-align: left;
+    transition: background var(--transition);
+}
+.faq_question:hover {
+    background: var(--light_primary_colour);
+}
+.faq_question[aria-expanded="true"] {
+    background: var(--light_primary_colour);
+    color: var(--dark_primary_colour);
+}
+.faq_chevron {
+    color: var(--primary_colour);
+    flex-shrink: 0;
+    transition: transform var(--transition);
+}
+.faq_question[aria-expanded="true"] .faq_chevron {
+    transform: rotate(180deg);
+}
+.faq_answer {
+    display: none;
+    padding: 0 var(--big_space) var(--big_space);
+    font-size: 0.875rem;
+    line-height: 1.75;
+    color: var(--base_text_colour);
+    border-top: 1px solid var(--border_colour);
+}
+.faq_answer.open {
+    display: block;
+}
+.faq_answer p {
+    margin-top: var(--mid_space);
+    margin-bottom: var(--smol_space);
+    max-width: 68ch;
+}
+.faq_answer p:last-child {
+    margin-bottom: 0;
+}
+.text-link {
+    color: var(--primary_colour);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+.text-link:hover {
+    color: var(--dark_primary_colour);
+}
+
+/**
+ * Responsive
+ * I bumped the breakpoint up from 768px to 900px because the TOC felt cramped
+ * on medium sized tablets.
+ */
+@media (max-width: 900px) {
+    .help_page_layout {
+        grid-template-columns: 1fr;
+    }
+    .content_table {
+        position: static;
+        margin-bottom: var(--big_space);
+    }
+}
+@media (max-width: 640px) {
+    .concept_grid { grid-template-columns: 1fr; }
+}

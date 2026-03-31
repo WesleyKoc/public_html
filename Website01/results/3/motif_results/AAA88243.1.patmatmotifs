@@ -1,0 +1,45 @@
+########################################
+# Program: patmatmotifs
+# Rundate: Mon 30 Mar 2026 13:05:20
+# Commandline: patmatmotifs
+#    -sequence /localdisk/home/s2238539/public_html/Website/results/3/motif_results/AAA88243.1.fasta
+#    -outfile /localdisk/home/s2238539/public_html/Website/results/3/motif_results/AAA88243.1.patmatmotifs
+#    -full
+# Report_format: dbmotif
+# Report_file: /localdisk/home/s2238539/public_html/Website/results/3/motif_results/AAA88243.1.patmatmotifs
+########################################
+
+#=======================================
+#
+# Sequence: AAA88243.1     from: 1   to: 418
+# HitCount: 2
+#
+# Full: Yes
+# Prune: Yes
+# Data_file: /usr/share/EMBOSS/data/PROSITE/prosite.lines
+#
+#=======================================
+
+Length = 8
+Start = position 206 of sequence
+End = position 213 of sequence
+
+Motif = ATP_GTP_A
+
+GVLMYGPPGCGKTMLAKA
+     |      |
+   206      213
+
+Length = 19
+Start = position 305 of sequence
+End = position 323 of sequence
+
+Motif = AAA
+
+DQNVNVKVIMATNRADTLDPALLRPGRLD
+     |                 |
+   305                 323
+
+
+#---------------------------------------
+#---------------------------------------

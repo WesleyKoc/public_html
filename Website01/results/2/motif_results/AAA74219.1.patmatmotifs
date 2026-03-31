@@ -1,0 +1,35 @@
+########################################
+# Program: patmatmotifs
+# Rundate: Sun 29 Mar 2026 18:37:22
+# Commandline: patmatmotifs
+#    -sequence /localdisk/home/s2238539/public_html/Website/results/2/motif_results/AAA74219.1.fasta
+#    -outfile /localdisk/home/s2238539/public_html/Website/results/2/motif_results/AAA74219.1.patmatmotifs
+#    -full
+# Report_format: dbmotif
+# Report_file: /localdisk/home/s2238539/public_html/Website/results/2/motif_results/AAA74219.1.patmatmotifs
+########################################
+
+#=======================================
+#
+# Sequence: AAA74219.1     from: 1   to: 1198
+# HitCount: 1
+#
+# Full: Yes
+# Prune: Yes
+# Data_file: /usr/share/EMBOSS/data/PROSITE/prosite.lines
+#
+#=======================================
+
+Length = 7
+Start = position 454 of sequence
+End = position 460 of sequence
+
+Motif = ATPASE_E1_E2
+
+TAICSDKTGTLTTNRMT
+     |     |
+   454     460
+
+
+#---------------------------------------
+#---------------------------------------

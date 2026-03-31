@@ -1,0 +1,470 @@
+/**
+ * Two-column form layout
+ * Keeps the main input fields side-by-side. On mobile, it'll collapse.
+ * I went back and forth between using gap and margin for spacing.
+ * Gap is just so much simpler and handles wrapping gracefully.
+ * Recycled code from other scripts, but adapted from: https://www.scale.at/blog/responsive-form-layout-css-grid
+ */
+.fetch_form_griddy {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--big_space);
+    margin-bottom: var(--big_space);
+}
+
+/**
+ * Field groups
+ * This is a standard pattern I've used before. Each group is a flex column,
+ * which makes the label and input stack nicely. The hint text is a bit small,
+ * but that's on purpose -> it's supplementary info, not the main action.
+ * Code adapted from: https://css-tricks.com/focus-visible-and-back/
+ */
+.feildd_group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+}
+.feildd_group label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--base_text_colour);
+    letter-spacing: 0.03em;
+}
+.feildd_group input[type="text"],
+.feildd_group input[type="number"],
+.feildd_group select {
+    padding: 0.55rem 0.75rem;
+    border: 1px solid var(--border_colour);
+    border-radius: var(--corner_rounding);
+    font-family: var(--font_body);
+    font-size: 0.95rem;
+    color: var(--base_text_colour);
+    background: var(--card_background_colour);
+    transition: border-color var(--transition), box-shadow var(--transition);
+}
+.feildd_group input:focus,
+.feildd_group select:focus {
+    outline: none;
+    border-color: var(--primary_colour);
+    box-shadow: 0 0 0 3px rgba(26,107,114,0.12);
+}
+.feildd_hint {
+    font-size: 0.78rem;
+    color: var(--grey_text_colour);
+}
+
+/**
+ * Live query preview box
+ * I thought this was a nice touch -> shows the user what will be sent to the API.
+ * It's a bit nerdy, but it gives immediate feedback and helps catch typos.
+ * The font is monospace to make it look like, well, a query.
+ */
+.live_query_preview {
+    background: var(--light_primary_colour);
+    border: 1px solid var(--border_colour);
+    border-radius: var(--corner_rounding);
+    padding: var(--smol_space) var(--mid_space);
+    font-family: var(--font_code);
+    font-size: 0.82rem;
+    color: var(--dark_primary_colour);
+    word-break: break-all;
+    min-height: 2.2rem;
+}
+
+/**
+ * Advanced options collapsible
+ * I didn't want to overwhelm users with all the parameters at once.
+ * This way, they're there if you need them, but not in the way if you don't.
+ * The chevron rotation is a nice visual cue. Took a bit to get the
+ * `aria-expanded` attribute to work with the CSS, but it's worth it.
+ * Code adapted from: https://css-tricks.com/aria-button-states-and-css/
+ * Code adapted from: https://stackoverflow.com/questions/78354504/responsive-form-layout-with-css-grid
+ * Code adapted from: https://css-tricks.com/css-only-accordion/
+ */
+.advvancd_options_toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: var(--font_body);
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--primary_colour);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    padding: 0;
+    margin-bottom: var(--mid_space);
+}
+.advvancd_options_toggle .chevron {
+    transition: transform var(--transition);
+}
+.advvancd_options_toggle[aria-expanded="true"] .chevron {
+    transform: rotate(180deg);
+}
+.advvancd_options_panel {
+    display: none;
+    border: 1px solid var(--border_colour);
+    border-radius: var(--bigger_corner_rounding);
+    padding: var(--big_space);
+    background: var(--background_colour);
+    margin-bottom: var(--big_space);
+}
+.advvancd_options_panel.open {
+    display: block;
+}
+.advvancd_options_grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: var(--big_space);
+}
+
+/**
+ * Range slider
+ * This was a bit of a headache. Getting the thumb to look consistent across browsers
+ * is a nightmare, so I just let the browser handle it with `accent-color`.
+ * Much simpler, and it still looks okay. The little counter on the right
+ * updates live with JS, which I think is a good user feedback loop.
+ * Code adapted from: https://css-tricks.com/styling-cross-browser-compatible-range-inputs-css/
+ */
+.renge_slidey_wrapper {
+    display: flex;
+    align-items: center;
+    gap: var(--smol_space);
+}
+.renge_slidey_wrapper input[type="range"] {
+    flex: 1;
+    accent-color: var(--primary_colour);
+}
+.renge_slidey_value {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--primary_colour);
+    min-width: 3rem;
+    text-align: right;
+}
+
+/**
+ * Toggle switch for RefSeq only
+ * I made this a custom toggle switch because it looks cleaner than a standard checkbox.
+ * The slider effect is pure CSS. I spent way too long getting the
+ * `transform: translateX()` value just right so it doesn't overflow the track.
+ * Code adapted from: https://css-tricks.com/css-only-checkbox-toggle-switch/
+ */
+.refseq_toggle_row {
+    display: flex;
+    align-items: center;
+    gap: var(--smol_space);
+}
+.refseq_toggle_switch {
+    position: relative;
+    width: 38px;
+    height: 20px;
+    flex-shrink: 0;
+}
+.refseq_toggle_switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+.refseq_toggle_slider {
+    position: absolute;
+    inset: 0;
+    background: var(--border_colour);
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background var(--transition);
+}
+.refseq_toggle_slider::before {
+    content: '';
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    left: 3px;
+    top: 3px;
+    background: #fff;
+    border-radius: 50%;
+    transition: transform var(--transition);
+}
+.refseq_toggle_switch input:checked + .refseq_toggle_slider {
+    background: var(--primary_colour);
+}
+.refseq_toggle_switch input:checked + .refseq_toggle_slider::before {
+    transform: translateX(18px);
+}
+
+/**
+ * Progress and status bar
+ * Shown by JS when a job is running. I wanted a clear visual indicator
+ * that something is happening in the background. The spinner is a classic.
+ * The progress bar width is animated, which makes it feel a bit more dynamic,
+ * even if the progress isn't always perfectly accurate.
+ * Took most of the code from other progress pages
+ * Code adapted from: https://css-tricks.com/css-loading-spinner/
+ */
+.job_status_bar {
+    display: none;
+    align-items: center;
+    gap: var(--mid_space);
+    padding: var(--mid_space) var(--big_space);
+    background: var(--light_primary_colour);
+    border: 1px solid var(--border_colour);
+    border-radius: var(--bigger_corner_rounding);
+    margin-bottom: var(--big_space);
+}
+.job_status_bar.visible { display: flex; }
+.spinner {
+    width: 20px;
+    height: 20px;
+    border: 3px solid var(--border_colour);
+    border-top-color: var(--primary_colour);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    flex-shrink: 0;
+}
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.progress_track {
+    flex: 1;
+    height: 6px;
+    background: var(--border_colour);
+    border-radius: 3px;
+    overflow: hidden;
+}
+.progress_bar {
+    height: 100%;
+    width: 0%;
+    background: var(--primary_colour);
+    border-radius: 3px;
+    transition: width 0.4s ease;
+}
+
+#status_message {
+    font-size: 0.85rem;
+    color: var(--grey_text_colour);
+    white-space: nowrap;
+}
+
+/**
+ * Results section
+ * Hidden by default until a job is completed.
+ * I didn't want an empty table just sitting there, so it's better to show it only
+ * when there's something to show.
+ */
+.rezults_section {
+    display: none;
+}
+.rezults_section.visible {
+    display: block;
+}
+
+/**
+ * Summary stats cards
+ * A little set of cards to show key metrics from the results.
+ * I wanted them to be visually distinct but not too loud.
+ * The grid layout with `auto-fit` means they'll wrap nicely on smaller screens.
+ */
+.summ_stats_cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: var(--mid_space);
+    margin-bottom: var(--bigger_space);
+}
+.summ_stats_card {
+    background: var(--card_background_colour);
+    border: 1px solid var(--border_colour);
+    border-radius: var(--bigger_corner_rounding);
+    padding: var(--mid_space) var(--big_space);
+    text-align: center;
+}
+.summ_stats_value {
+    font-family: var(--font_heading);
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--primary_colour);
+    line-height: 1;
+    margin-bottom: var(--space-xs);
+}
+.summ_stats_label {
+    font-size: 0.78rem;
+    color: var(--grey_text_colour);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+/**
+ * Sequence table
+ * This is the main results table. I made it scroll horizontally on small screens
+ * because there can be a lot of columns. The sortable headers are a nice feature,
+ * but it was a pain to get the cursor and hover states right.
+ * Code adapted from: https://developer.mozilla.org/en-US/docs/Web/CSS/user-select
+ */
+.sequence_tablee_wrapper {
+    overflow-x: auto;
+    border: 1px solid var(--border_colour);
+    border-radius: var(--bigger_corner_rounding);
+    margin-bottom: var(--big_space);
+}
+.sequence_table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+}
+.sequence_table th {
+    background: var(--light_primary_colour);
+    padding: 0.6rem var(--mid_space);
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.8rem;
+    letter-spacing: 0.04em;
+    color: var(--dark_primary_colour);
+    white-space: nowrap;
+    border-bottom: 1px solid var(--border_colour);
+    cursor: pointer;
+    user-select: none;
+}
+.sequence_table th:hover { background: #d8ecee; }
+.sequence_table td {
+    padding: 0.5rem var(--mid_space);
+    border-bottom: 1px solid var(--border_colour);
+    vertical-align: middle;
+}
+.sequence_table tbody tr:last-child td { border-bottom: none; }
+.sequence_table tbody tr:hover { background: #f5fafb; }
+.sequence_table tbody tr.excluded { opacity: 0.4; }
+
+.accession_link {
+    font-family: var(--font_code);
+    font-size: 0.82rem;
+    color: var(--primary_colour);
+}
+
+/**
+ * Table toolbar
+ * A place for the search box and selection counter.
+ * I originally had the search box floating to the right, but it looked weird on
+ * small screens, so I made it a flex wrap. Much more robust.
+ * Code adapted from: https://css-tricks.com/snippets/css/a-guide-to-flexbox/
+ */
+.tablee_toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: var(--mid_space);
+    margin-bottom: var(--mid_space);
+}
+.tablee_search {
+    padding: 0.4rem 0.75rem;
+    border: 1px solid var(--border_colour);
+    border-radius: var(--corner_rounding);
+    font-size: 0.875rem;
+    font-family: var(--font_body);
+    width: 220px;
+}
+.tablee_search:focus {
+    outline: none;
+    border-color: var(--primary_colour);
+}
+
+.selection_countz {
+    font-size: 0.85rem;
+    color: var(--grey_text_colour);
+}
+.selection_countz strong {
+    color: var(--primary_colour);
+}
+
+/**
+ * Chart container
+ * A simple wrapper for any charts I might throw in here.
+ * I tried a few different charting libraries and finally settled on this setup.
+ * The padding is generous because charts need a bit of breathing room.
+ */
+.chart_container {
+    background: var(--card_background_colour);
+    border: 1px solid var(--border_colour);
+    border-radius: var(--bigger_corner_rounding);
+    padding: var(--big_space);
+    margin-bottom: var(--bigger_space);
+}
+.chart_title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--grey_text_colour);
+    margin-bottom: var(--mid_space);
+}
+
+/**
+ * Error banner
+ * For when things go wrong. I made it a distinct red-ish colour so it's noticeable
+ * but not alarmist. It's hidden by default and shown by JS.
+ * The `align-items: flex-start` is a small detail to make multi-line messages look better.
+ */
+.errror_banner {
+    display: none;
+    background: #fdf0ee;
+    border: 1px solid #e8b4ae;
+    border-radius: var(--bigger_corner_rounding);
+    padding: var(--mid_space) var(--big_space);
+    color: var(--danger_colour);
+    font-size: 0.9rem;
+    margin-bottom: var(--big_space);
+}
+.errror_banner.visible { display: flex; gap: var(--mid_space); align-items: flex-start; }
+
+/**
+ * Proceed button row
+ * The final action area. The top border separates it from the results above.
+ * I just used `flex-wrap` here so it doesn't break on mobile.
+ */
+.proceed_row {
+    display: flex;
+    align-items: center;
+    gap: var(--mid_space);
+    flex-wrap: wrap;
+    padding-top: var(--mid_space);
+    border-top: 1px solid var(--border_colour);
+}
+
+/**
+ * Step breadcrumb
+ * A visual indicator of where the user is in a multi-step process.
+ * I used different colours for active and completed steps. It took a few tries
+ * to get the spacing right so the separators don't look crowded.
+ */
+.step_breaddcrum {
+    display: flex;
+    align-items: center;
+    gap: var(--smol_space);
+    margin-bottom: var(--bigger_space);
+    font-size: 0.82rem;
+}
+.step_breaddcrum_item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    color: var(--grey_text_colour);
+}
+.step_breaddcrum_item.active {
+    color: var(--primary_colour);
+    font-weight: 600;
+}
+.step_breaddcrum_item.done {
+    color: var(--success_colour);
+}
+.step_breaddcrum_sep {
+    color: var(--border_colour);
+}
+
+/**
+ * Responsive tweaks
+ * Just making sure everything holds up on smaller screens.
+ * I collapsed the main grid to one column, which is simpler and more readable on a phone.
+ * Code adapted from: https://css-tricks.com/responsive-menus/
+ */
+@media (max-width: 640px) {
+    .fetch-form-grid { grid-template-columns: 1fr; }
+    .advanced-grid   { grid-template-columns: 1fr; }
+}
