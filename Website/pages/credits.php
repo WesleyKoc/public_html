@@ -327,6 +327,16 @@ $sections = [
 			. ' and bottom-up code is all human written.',
                 'licence' => 'https://code.claude.com/docs/en/legal-and-compliance',
             ],
+            [
+                'name' => 'Deepseek',
+                'url' => 'https://www.deepseek.com/',
+                'version' => '',
+                'use' => 'Debugging, structural development, and' 
+                        . ' optimisation of the code for readability'
+                        . ' and clarity. Boilerplate code, logic, workflow'
+                        . ' and bottom-up code is all human written.',
+                'licence' => 'https://deepseeklicense.github.io/',
+            ],
         ],
     ],
 
@@ -470,12 +480,12 @@ $sections = [
             </p>
             <br>
             <!-- AI Usage Statement -->
-            <p class="streetcred_eyebrow">AI Usage Statement</p>
+            <h3>AI Usage Statement</h3>
             <p>
                 Development of ALiHS was supported by AI tools including <strong>Claude by Anthropic</strong> 
                 and <strong>DeepSeek</strong>. These tools assisted with code cleanup and readability 
                 (CSS, HTML, JS, PHP formatting), comment enhancement for maintainability, converting 
-                planning notes into readable Help/About page content, generating database seed automation 
+                planning notes into readable page content, generating database seed automation 
                 scripts, creating temporary HTML/CSS/JS mockups for layout testing, debugging assistance, 
                 and standardizing variable names across files. All core architecture decisions, database 
                 schema design, biological workflow logic, UI/UX design choices, analytical pipeline 

@@ -327,6 +327,16 @@ $sections = [
 			. ' and bottom-up code is all human written.',
                 'licence' => 'https://code.claude.com/docs/en/legal-and-compliance',
             ],
+            [
+                'name' => 'Deepseek',
+                'url' => 'https://www.deepseek.com/',
+                'version' => '',
+                'use' => 'Debugging, structural development, and' 
+                        . ' optimisation of the code for readability'
+                        . ' and clarity. Boilerplate code, logic, workflow'
+                        . ' and bottom-up code is all human written.',
+                'licence' => 'https://deepseeklicense.github.io/',
+            ],
         ],
     ],
 
